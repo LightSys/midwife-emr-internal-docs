@@ -3,6 +3,7 @@ module Main exposing (..)
 import Html.App as App
 import Html exposing (..)
 import Html.Attributes exposing (href, class, style)
+import Markdown
 import Material
 import Material.Card as Card
 import Material.Color as Color
@@ -103,21 +104,18 @@ tabs labels =
     )
 
 
-header : String -> List (Html a)
-header title =
+headerSmall : String -> List (Html a)
+headerSmall title =
     [ Layout.row []
-        [ Layout.title
-            [ Options.css "font-size" "2.5rem"
-            , Options.css "padding" "2rem"
-            ]
+        [ Layout.title []
             [ text title ]
         ]
     ]
 
 
-header' : String -> List (Html a)
-header' title =
-    [ h1
+header : String -> List (Html a)
+header title =
+    [ h2
         [ style [ "padding" => "2rem" ]
         ]
         [ text title ]
@@ -134,7 +132,10 @@ view model =
         , Layout.onSelectTab SelectTab
         ]
         { header =
-            header' "Welcome to Midwife-EMR"
+            if model.windowSize.height < 600 then
+                headerSmall "Welcome to Midwife-EMR"
+            else
+                header "Welcome to Midwife-EMR"
         , drawer = []
         , tabs =
             tabs [ "Learn", "Use" ]
@@ -174,27 +175,14 @@ viewLearnWhatIsCard =
                     [ text title ]
                 ]
             ]
-                ++ List.map
-                    (\( words, img ) ->
-                        Card.text
-                            [ Color.text Color.accentContrast
-                            ]
-                            [ case img of
-                                Nothing ->
-                                    text ""
-
-                                Just img ->
-                                    Options.img
-                                        [ Options.attribute <| Html.Attributes.src <| img
-                                        , css "height" "96px"
-                                        , css "width" "96px"
-                                        , css "float" "right"
-                                        ]
-                                        []
-                            , text words
-                            ]
-                    )
-                    Verbage.learnIntro
+                ++ [ Card.text
+                        [ Color.text Color.accentContrast
+                        , css "padding-bottom" "0"
+                        , css "padding-top" "0"
+                        ]
+                        [ Markdown.toHtml [ class "cardText" ] Verbage.learnIntro
+                        ]
+                   ]
                 ++ [ Card.text [ Card.expand ] []
                    , Card.text
                         [ css "background" "rgba(0,0,0,0.5)"
@@ -222,13 +210,40 @@ viewLearnFeaturesCard =
     let
         title =
             "Features"
+
+        contents =
+            [ Card.title []
+                [ Card.head [ Color.text Color.accent ]
+                    [ text title ]
+                ]
+            ]
+                ++ [ Card.text
+                        [ Color.text Color.primaryContrast
+                        , css "padding-bottom" "0"
+                        , css "padding-top" "0"
+                        ]
+                        [ Markdown.toHtml [ class "cardText" ] Verbage.featuresIntro
+                        ]
+                   ]
+                ++ [ Card.text [ Card.expand ] []
+                   , Card.text
+                        [ css "background" "rgba(0,0,0,0.5)"
+                        , css "width" "100%"
+                        ]
+                        [ Options.span
+                            [ Color.text Color.white
+                            , Typo.title
+                            , Typo.contrast 1.0
+                            ]
+                            [ text "Find out more" ]
+                        ]
+                   ]
     in
         [ Card.view
             [ css "width" "100%"
             , Color.background Color.primaryDark
             ]
-            [ Card.title [] [ Card.head [ Color.text Color.white ] [ text title ] ]
-            ]
+            contents
         ]
 
 
@@ -237,13 +252,42 @@ viewLearnHowToCard =
     let
         title =
             "How do I ...?"
+
+        contents =
+            [ Card.title []
+                [ Card.head [ Color.text Color.accent ]
+                    [ text title ]
+                ]
+            ]
+                ++ [ Card.text
+                        [ Color.text Color.primaryContrast
+                        , css "padding-bottom" "0"
+                        , css "padding-top" "0"
+                        ]
+                        [ Markdown.toHtml [ class "cardText" ] Verbage.howIntro
+                        ]
+                   ]
+                ++ [ Card.text [ Card.expand ] []
+                   , Card.text
+                        [ css "background" "rgba(0,0,0,0.5)"
+                        , css "width" "100%"
+                        ]
+                        [ Options.span
+                            [ Color.text Color.white
+                            , Typo.title
+                            , Typo.contrast 1.0
+                            ]
+                            [ text "Find out more" ]
+                        ]
+                   ]
     in
         [ Card.view
             [ css "width" "100%"
             , Color.background Color.accentContrast
             ]
-            [ Card.title [] [ Card.head [ Color.text Color.primary ] [ text title ] ]
-            ]
+            --[ Card.title [] [ Card.head [ Color.text Color.primary ] [ text title ] ]
+            --]
+            contents
         ]
 
 
@@ -252,13 +296,42 @@ viewLearnTrainingCard =
     let
         title =
             "Training"
+
+        contents =
+            [ Card.title []
+                [ Card.head [ Color.text Color.accent ]
+                    [ text title ]
+                ]
+            ]
+                ++ [ Card.text
+                        [ Color.text Color.primaryContrast
+                        , css "padding-bottom" "0"
+                        , css "padding-top" "0"
+                        ]
+                        [ Markdown.toHtml [ class "cardText" ] Verbage.trainingIntro
+                        ]
+                   ]
+                ++ [ Card.text [ Card.expand ] []
+                   , Card.text
+                        [ css "background" "rgba(0,0,0,0.5)"
+                        , css "width" "100%"
+                        ]
+                        [ Options.span
+                            [ Color.text Color.white
+                            , Typo.title
+                            , Typo.contrast 1.0
+                            ]
+                            [ text "Find out more" ]
+                        ]
+                   ]
     in
         [ Card.view
             [ css "width" "100%"
             , Color.background Color.primary
             ]
-            [ Card.title [] [ Card.head [ Color.text Color.accent ] [ text title ] ]
-            ]
+            --[ Card.title [] [ Card.head [ Color.text Color.accent ] [ text title ] ]
+            --]
+            contents
         ]
 
 
