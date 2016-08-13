@@ -1,0 +1,3 @@
+#!/bin/bash
+
+elm-live --host=0.0.0.0 -- src/elm/Main.elm --output=build/main.js --warn
