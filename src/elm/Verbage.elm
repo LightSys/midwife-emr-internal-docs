@@ -5,17 +5,17 @@ learnIntro : String
 learnIntro =
     """
 
-**Midwife-EMR** is software that is specifically made for midwives in order
-to help them manage their patient's medical records. Midwife-EMR is
-designed for the full breadth of pregnancy care from prenatal through
-labor/delivery and postpartum *(labor/delivery still in development)*.
+**Midwife-EMR** is software that is specifically made for midwives in order to
+help them manage patient medical records. Midwife-EMR is designed for the full
+breadth of pregnancy care from prenatal through labor/delivery and postpartum
+*(labor/delivery still in development)*.
 
 <img style="float: right" src="src/assets/IMG_7206_cropped_96x96.JPG" >
-Midwife-EMR is free, open-source software that is able to run on a number
-of different computer devices including a small appliance like this
-Odroid or a laptop/desktop. But since Midwife-EMR is a browser
-application, that means that midwives can use the application on
-everything from their computers to their phones or tablets.
+Midwife-EMR is free, open-source software that is able to run on a number of
+different computer devices including a small appliance like this Odroid or
+a laptop/desktop. But since Midwife-EMR is a browser application, that
+means that midwives can use the application on everything from their
+computers to their phones or tablets.
 
     """
 
@@ -61,6 +61,9 @@ trainingIntro =
     """
 
 Does your staff need additional training? Do you need help understanding how to
-setup your initial medicines, vaccinations, and other tables?
+setup your initial medicines, vaccinations, and other tables? Do you wonder
+what is the best way to start using Midwife-EMR in your clinic?
+
+Watch our training videos to find out more about these topics and many more.
 
     """

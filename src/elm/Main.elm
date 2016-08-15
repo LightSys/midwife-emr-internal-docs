@@ -5,6 +5,7 @@ import Html exposing (..)
 import Html.Attributes exposing (href, class, style)
 import Markdown
 import Material
+import Material.Button as Button
 import Material.Card as Card
 import Material.Color as Color
 import Material.Grid as Grid exposing (grid, cell, size, Device(..))
@@ -24,8 +25,17 @@ type alias Model =
         Material.Model
         -- Boilerplate: model store for any and all Mdl components you use.
     , selectedTab : Int
+    , selectedPage : Page
     , windowSize : WindowSize
     }
+
+
+type Page
+    = MainPage
+    | WhatIsPage
+    | FeaturesPage
+    | HowPage
+    | TrainingPage
 
 
 type alias WindowSize =
@@ -47,14 +57,40 @@ model =
         Material.model
         -- Boilerplate: Always use this initial Mdl model store.
     , selectedTab = 0
+    , selectedPage = MainPage
     , windowSize = windowSizeEmpty
     }
+
+
+
+-- Material component indexes
+
+
+learnWhatIsBtn =
+    0
+
+
+learnFeaturesBtn =
+    1
+
+
+learnHowToBtn =
+    2
+
+
+learnTrainingBtn =
+    3
+
+
+learnBackBtn =
+    4
 
 
 type Msg
     = Mdl (Material.Msg Msg)
     | SelectTab Int
     | WindowResize Window.Size
+    | ViewPage Page
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -64,7 +100,7 @@ update msg model =
             Material.update msg' model
 
         SelectTab num ->
-            { model | selectedTab = num } ! []
+            { model | selectedTab = num, selectedPage = MainPage } ! []
 
         WindowResize wsize ->
             let
@@ -77,6 +113,9 @@ update msg model =
                 -- TODO: not sure that we even need this at all but it is helpful
                 -- to find the breakpoints between devices.
                 newModel ! []
+
+        ViewPage page ->
+            { model | selectedPage = page } ! []
 
 
 
@@ -124,27 +163,81 @@ header title =
 
 view : Model -> Html Msg
 view model =
-    Layout.render Mdl
-        model.mdl
-        [ Layout.fixedHeader
-        , Layout.fixedTabs
-        , Layout.selectedTab model.selectedTab
-        , Layout.onSelectTab SelectTab
+    let
+        main =
+            case model.selectedPage of
+                MainPage ->
+                    viewMain
+
+                WhatIsPage ->
+                    viewWhatIs
+
+                FeaturesPage ->
+                    viewFeatures
+
+                HowPage ->
+                    viewHow
+
+                TrainingPage ->
+                    viewTraining
+    in
+        Layout.render Mdl
+            model.mdl
+            [ Layout.fixedHeader
+            , Layout.fixedTabs
+            , Layout.selectedTab model.selectedTab
+            , Layout.onSelectTab SelectTab
+            ]
+            { header =
+                if model.windowSize.height < 600 then
+                    headerSmall "Welcome to Midwife-EMR"
+                else
+                    header "Welcome to Midwife-EMR"
+            , drawer = []
+            , tabs =
+                tabs [ "Learn", "Use" ]
+            , main = [ main model ]
+            }
+
+
+viewWhatIs : Model -> Html Msg
+viewWhatIs model =
+    div [ style [ "padding" => "2rem" ] ]
+        [ text ("What is page")
+        , Button.render Mdl
+            [ learnBackBtn ]
+            model.mdl
+            [ Button.ripple
+            , Button.colored
+            , Button.onClick <| ViewPage MainPage
+            ]
+            [ text "Back" ]
         ]
-        { header =
-            if model.windowSize.height < 600 then
-                headerSmall "Welcome to Midwife-EMR"
-            else
-                header "Welcome to Midwife-EMR"
-        , drawer = []
-        , tabs =
-            tabs [ "Learn", "Use" ]
-        , main = [ viewBody model ]
-        }
 
 
-viewBody : Model -> Html Msg
-viewBody model =
+viewFeatures : Model -> Html Msg
+viewFeatures model =
+    div [ style [ "padding" => "2rem" ] ]
+        [ text ("Features page")
+        ]
+
+
+viewHow : Model -> Html Msg
+viewHow model =
+    div [ style [ "padding" => "2rem" ] ]
+        [ text ("How page")
+        ]
+
+
+viewTraining : Model -> Html Msg
+viewTraining model =
+    div [ style [ "padding" => "2rem" ] ]
+        [ text ("Training page")
+        ]
+
+
+viewMain : Model -> Html Msg
+viewMain model =
     case model.selectedTab of
         0 ->
             viewLearn model
@@ -163,39 +256,49 @@ viewUse model =
         ]
 
 
-viewLearnWhatIsCard : List (Html a)
-viewLearnWhatIsCard =
+
+--cardContents : Color.Color -> String -> String -> List (Material.Card.Block a)
+
+
+cardContents cardIdx page model headColor textColor title content =
+    [ Card.title []
+        [ Card.head [ Color.text headColor ]
+            [ text title ]
+        ]
+    ]
+        ++ [ Card.text
+                [ Color.text textColor
+                , css "padding-bottom" "0"
+                , css "padding-top" "0"
+                ]
+                [ Markdown.toHtml [ class "cardText" ] content
+                ]
+           ]
+        ++ [ Card.text [ Card.expand ] []
+           , Card.actions [ Card.border ]
+                [ Button.render Mdl
+                    [ cardIdx ]
+                    model.mdl
+                    [ Button.ripple
+                    , Button.accent
+                    , Color.text Color.white
+                    , css "width" "100%"
+                    , css "background" "rgba(0,0,0,0.5)"
+                    , Button.onClick <| ViewPage page
+                    ]
+                    [ text "Find out more" ]
+                ]
+           ]
+
+
+viewLearnWhatIsCard : Model -> List (Html Msg)
+viewLearnWhatIsCard model =
     let
         title =
             "What is Midwife-EMR?"
 
         contents =
-            [ Card.title []
-                [ Card.head [ Color.text Color.primaryDark ]
-                    [ text title ]
-                ]
-            ]
-                ++ [ Card.text
-                        [ Color.text Color.accentContrast
-                        , css "padding-bottom" "0"
-                        , css "padding-top" "0"
-                        ]
-                        [ Markdown.toHtml [ class "cardText" ] Verbage.learnIntro
-                        ]
-                   ]
-                ++ [ Card.text [ Card.expand ] []
-                   , Card.text
-                        [ css "background" "rgba(0,0,0,0.5)"
-                        , css "width" "100%"
-                        ]
-                        [ Options.span
-                            [ Color.text Color.white
-                            , Typo.title
-                            , Typo.contrast 1.0
-                            ]
-                            [ text "Find out more" ]
-                        ]
-                   ]
+            cardContents learnWhatIsBtn WhatIsPage model Color.primaryDark Color.accentContrast title Verbage.learnIntro
     in
         [ Card.view
             [ css "width" "100%"
@@ -205,39 +308,14 @@ viewLearnWhatIsCard =
         ]
 
 
-viewLearnFeaturesCard : List (Html a)
-viewLearnFeaturesCard =
+viewLearnFeaturesCard : Model -> List (Html Msg)
+viewLearnFeaturesCard model =
     let
         title =
             "Features"
 
         contents =
-            [ Card.title []
-                [ Card.head [ Color.text Color.accent ]
-                    [ text title ]
-                ]
-            ]
-                ++ [ Card.text
-                        [ Color.text Color.primaryContrast
-                        , css "padding-bottom" "0"
-                        , css "padding-top" "0"
-                        ]
-                        [ Markdown.toHtml [ class "cardText" ] Verbage.featuresIntro
-                        ]
-                   ]
-                ++ [ Card.text [ Card.expand ] []
-                   , Card.text
-                        [ css "background" "rgba(0,0,0,0.5)"
-                        , css "width" "100%"
-                        ]
-                        [ Options.span
-                            [ Color.text Color.white
-                            , Typo.title
-                            , Typo.contrast 1.0
-                            ]
-                            [ text "Find out more" ]
-                        ]
-                   ]
+            cardContents learnFeaturesBtn FeaturesPage model Color.white Color.accent title Verbage.featuresIntro
     in
         [ Card.view
             [ css "width" "100%"
@@ -247,90 +325,36 @@ viewLearnFeaturesCard =
         ]
 
 
-viewLearnHowToCard : List (Html a)
-viewLearnHowToCard =
+viewLearnHowToCard : Model -> List (Html Msg)
+viewLearnHowToCard model =
     let
         title =
             "How do I ...?"
 
         contents =
-            [ Card.title []
-                [ Card.head [ Color.text Color.accent ]
-                    [ text title ]
-                ]
-            ]
-                ++ [ Card.text
-                        [ Color.text Color.primaryContrast
-                        , css "padding-bottom" "0"
-                        , css "padding-top" "0"
-                        ]
-                        [ Markdown.toHtml [ class "cardText" ] Verbage.howIntro
-                        ]
-                   ]
-                ++ [ Card.text [ Card.expand ] []
-                   , Card.text
-                        [ css "background" "rgba(0,0,0,0.5)"
-                        , css "width" "100%"
-                        ]
-                        [ Options.span
-                            [ Color.text Color.white
-                            , Typo.title
-                            , Typo.contrast 1.0
-                            ]
-                            [ text "Find out more" ]
-                        ]
-                   ]
-    in
-        [ Card.view
-            [ css "width" "100%"
-            , Color.background Color.accentContrast
-            ]
-            --[ Card.title [] [ Card.head [ Color.text Color.primary ] [ text title ] ]
-            --]
-            contents
-        ]
-
-
-viewLearnTrainingCard : List (Html a)
-viewLearnTrainingCard =
-    let
-        title =
-            "Training"
-
-        contents =
-            [ Card.title []
-                [ Card.head [ Color.text Color.accent ]
-                    [ text title ]
-                ]
-            ]
-                ++ [ Card.text
-                        [ Color.text Color.primaryContrast
-                        , css "padding-bottom" "0"
-                        , css "padding-top" "0"
-                        ]
-                        [ Markdown.toHtml [ class "cardText" ] Verbage.trainingIntro
-                        ]
-                   ]
-                ++ [ Card.text [ Card.expand ] []
-                   , Card.text
-                        [ css "background" "rgba(0,0,0,0.5)"
-                        , css "width" "100%"
-                        ]
-                        [ Options.span
-                            [ Color.text Color.white
-                            , Typo.title
-                            , Typo.contrast 1.0
-                            ]
-                            [ text "Find out more" ]
-                        ]
-                   ]
+            cardContents learnHowToBtn HowPage model Color.accent Color.primaryContrast title Verbage.howIntro
     in
         [ Card.view
             [ css "width" "100%"
             , Color.background Color.primary
             ]
-            --[ Card.title [] [ Card.head [ Color.text Color.accent ] [ text title ] ]
-            --]
+            contents
+        ]
+
+
+viewLearnTrainingCard : Model -> List (Html Msg)
+viewLearnTrainingCard model =
+    let
+        title =
+            "Training"
+
+        contents =
+            cardContents learnTrainingBtn TrainingPage model Color.accent Color.primaryContrast title Verbage.trainingIntro
+    in
+        [ Card.view
+            [ css "width" "100%"
+            , Color.background Color.accentContrast
+            ]
             contents
         ]
 
@@ -339,10 +363,10 @@ viewLearn : Model -> Html Msg
 viewLearn model =
     div []
         [ grid []
-            [ cell [ size Desktop 6, size Tablet 8, size Phone 4 ] viewLearnWhatIsCard
-            , cell [ size Desktop 6, size Tablet 8, size Phone 4 ] viewLearnFeaturesCard
-            , cell [ size Desktop 6, size Tablet 8, size Phone 4 ] viewLearnHowToCard
-            , cell [ size Desktop 6, size Tablet 8, size Phone 4 ] viewLearnTrainingCard
+            [ cell [ size Desktop 6, size Tablet 8, size Phone 4 ] <| viewLearnWhatIsCard model
+            , cell [ size Desktop 6, size Tablet 8, size Phone 4 ] <| viewLearnFeaturesCard model
+            , cell [ size Desktop 6, size Tablet 8, size Phone 4 ] <| viewLearnHowToCard model
+            , cell [ size Desktop 6, size Tablet 8, size Phone 4 ] <| viewLearnTrainingCard model
             ]
         ]
 
