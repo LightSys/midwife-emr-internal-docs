@@ -1,7 +1,7 @@
 {
-  "name": "midwife-emr-intro-page",
+  "name": "midwife-emr-internal-docs",
   "version": "1.0.0",
-  "description": "Midwife-EMR Introduction",
+  "description": "Midwife-EMR Internal Docs",
   "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
