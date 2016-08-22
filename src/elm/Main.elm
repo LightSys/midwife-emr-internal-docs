@@ -66,22 +66,27 @@ model =
 -- Material component indexes
 
 
+learnWhatIsBtn : number
 learnWhatIsBtn =
     0
 
 
+learnFeaturesBtn : number
 learnFeaturesBtn =
     1
 
 
+learnHowToBtn : number
 learnHowToBtn =
     2
 
 
+learnTrainingBtn : number
 learnTrainingBtn =
     3
 
 
+learnBackBtn : number
 learnBackBtn =
     4
 
