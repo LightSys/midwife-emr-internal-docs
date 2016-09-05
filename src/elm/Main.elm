@@ -1,17 +1,22 @@
-module Main exposing (..)
+port module Main exposing (..)
 
+import Hash exposing (hash)
 import Html.App as App
 import Html exposing (..)
-import Html.Attributes exposing (href, class, style)
+import Html.Attributes exposing (class, href, id, style)
 import Markdown
 import Material
 import Material.Button as Button
 import Material.Card as Card
 import Material.Color as Color
+import Material.Elevation as Elevation
 import Material.Grid as Grid exposing (grid, cell, size, Device(..))
 import Material.Layout as Layout
-import Material.Options as Options exposing (css)
+import Material.List as MList
+import Material.Menu
+import Material.Options as Options exposing (css, styled, when)
 import Material.Typography as Typo
+import String
 import Window
 
 
@@ -24,7 +29,7 @@ type alias Model =
     { mdl :
         Material.Model
         -- Boilerplate: model store for any and all Mdl components you use.
-    , selectedTab : Int
+    , selectedTab : Tab
     , selectedPage : Page
     , windowSize : WindowSize
     }
@@ -36,6 +41,11 @@ type Page
     | FeaturesPage
     | HowPage
     | TrainingPage
+
+
+type Tab
+    = UseTab
+    | LearnTab
 
 
 type alias WindowSize =
@@ -56,7 +66,7 @@ model =
     { mdl =
         Material.model
         -- Boilerplate: Always use this initial Mdl model store.
-    , selectedTab = 0
+    , selectedTab = UseTab
     , selectedPage = MainPage
     , windowSize = windowSizeEmpty
     }
@@ -91,11 +101,46 @@ learnBackBtn =
     4
 
 
+topBtn : number
+topBtn =
+    5
+
+
+{-| Translation from Tab to Int for the sake of MDL.
+-}
+getTabInt : Tab -> Int
+getTabInt tab =
+    case tab of
+        UseTab ->
+            0
+
+        LearnTab ->
+            1
+
+
+{-| Translation from Int to Tab for the sake of MDL. Since
+    MDL requires Ints to represent tabs, we cannot escape
+    these mappings.
+-}
+getIntTab : Int -> Tab
+getIntTab num =
+    case num of
+        0 ->
+            UseTab
+
+        1 ->
+            LearnTab
+
+        _ ->
+            LearnTab
+
+
 type Msg
     = Mdl (Material.Msg Msg)
-    | SelectTab Int
+    | SelectTab Tab
     | WindowResize Window.Size
     | ViewPage Page
+    | GoToTop String
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -104,8 +149,8 @@ update msg model =
         Mdl msg' ->
             Material.update msg' model
 
-        SelectTab num ->
-            { model | selectedTab = num, selectedPage = MainPage } ! []
+        SelectTab tab ->
+            { model | selectedTab = tab, selectedPage = MainPage } ! []
 
         WindowResize wsize ->
             let
@@ -121,6 +166,9 @@ update msg model =
 
         ViewPage page ->
             { model | selectedPage = page } ! []
+
+        GoToTop divId ->
+            ( model, scrollParent divId )
 
 
 
@@ -190,8 +238,8 @@ view model =
             model.mdl
             [ Layout.fixedHeader
             , Layout.fixedTabs
-            , Layout.selectedTab model.selectedTab
-            , Layout.onSelectTab SelectTab
+            , Layout.selectedTab (getTabInt model.selectedTab)
+            , Layout.onSelectTab (\t -> getIntTab t |> SelectTab)
             ]
             { header =
                 if model.windowSize.height < 600 then
@@ -200,9 +248,111 @@ view model =
                     header "Welcome to Midwife-EMR"
             , drawer = []
             , tabs =
-                tabs [ "Learn", "Use" ]
+                tabs [ "Use", "Learn" ]
             , main = [ main model ]
             }
+
+
+fst3 : ( a, b, c ) -> a
+fst3 ( a, b, c ) =
+    a
+
+
+snd3 : ( a, b, c ) -> b
+snd3 ( a, b, c ) =
+    b
+
+
+trd3 : ( a, b, c ) -> c
+trd3 ( a, b, c ) =
+    c
+
+
+infixr 5 :>
+(:>) : (a -> b) -> a -> b
+(:>) f x =
+    f x
+
+
+{-| Displays
+
+
+-}
+viewDetailPage : String -> List ( String, String, String ) -> Color.Color -> Color.Color -> Color.Color -> Bool -> Model -> Html Msg
+viewDetailPage title cards backColor titleColor textColor isTopLevel model =
+    let
+        divId =
+            hash title |> toString |> String.append "divId"
+
+        generateId str =
+            String.words str
+                |> String.join "-"
+
+        toc =
+            List.indexedMap
+                (\idx card ->
+                    MList.li [ MList.withBody ]
+                        [ MList.content []
+                            [ a [ href <| generateId <| "#" ++ (snd3 card) ]
+                                [ text <| snd3 card ]
+                            , MList.body [] [ text <| trd3 card ]
+                            ]
+                        ]
+                )
+                cards
+
+        body =
+            List.indexedMap
+                (\idx card ->
+                    cell [ size Desktop 12, size Tablet 8, size Phone 4 ]
+                        [ Card.view
+                            [ css "width" "100%"
+                            , Color.background backColor
+                            , Card.border
+                            ]
+                            [ Card.title []
+                                [ Card.head
+                                    [ Color.text titleColor
+                                    , Options.attribute <| Html.Attributes.id <| generateId <| snd3 card
+                                    ]
+                                    [ text <| snd3 card ]
+                                ]
+                            , Card.text [ Color.text textColor ]
+                                [ Markdown.toHtml [] <| fst3 card ]
+                            , Card.menu []
+                                [ Button.render Mdl
+                                    [ topBtn ]
+                                    model.mdl
+                                    [ Button.plain
+                                    , Button.ripple
+                                    , Color.text Color.white
+                                    , Button.onClick (GoToTop divId)
+                                    ]
+                                    [ text "Go to top" ]
+                                ]
+                            ]
+                        ]
+                )
+                cards
+    in
+        div
+            [ style [ "padding" => "2rem" ]
+            , id divId
+            ]
+            [ Button.render Mdl
+                [ learnBackBtn ]
+                model.mdl
+                [ Button.ripple
+                , Button.colored
+                , Button.onClick <| ViewPage MainPage
+                , Button.disabled `when` isTopLevel
+                , css "display" "none" `when` isTopLevel
+                ]
+                [ text "Back" ]
+            , styled p [ Typo.display2 ] [ text title ]
+            , MList.ul [] toc
+            , grid [] body
+            ]
 
 
 viewWhatIs : Model -> Html Msg
@@ -224,47 +374,62 @@ viewFeatures : Model -> Html Msg
 viewFeatures model =
     div [ style [ "padding" => "2rem" ] ]
         [ text ("Features page")
+        , Button.render Mdl
+            [ learnBackBtn ]
+            model.mdl
+            [ Button.ripple
+            , Button.colored
+            , Button.onClick <| ViewPage MainPage
+            ]
+            [ text "Back" ]
         ]
 
 
 viewHow : Model -> Html Msg
 viewHow model =
-    div [ style [ "padding" => "2rem" ] ]
-        [ text ("How page")
-        ]
+    viewDetailPage "How do I ... ?" Verbage.howPageCards Color.primary Color.accent Color.primaryContrast False model
 
 
 viewTraining : Model -> Html Msg
 viewTraining model =
     div [ style [ "padding" => "2rem" ] ]
         [ text ("Training page")
+        , Button.render Mdl
+            [ learnBackBtn ]
+            model.mdl
+            [ Button.ripple
+            , Button.colored
+            , Button.onClick <| ViewPage MainPage
+            ]
+            [ text "Back" ]
         ]
 
 
 viewMain : Model -> Html Msg
 viewMain model =
     case model.selectedTab of
-        0 ->
-            viewLearn model
-
-        1 ->
+        UseTab ->
             viewUse model
 
-        _ ->
-            text "404"
+        LearnTab ->
+            viewLearn model
 
 
+{-| Purpose:
+    1. Allow user to download and install CA certificate, including instructions.
+    2. Link to Midwife-EMR application (more than one IP?)
+    3. Display IP addresses currently in use.
+-}
 viewUse : Model -> Html Msg
 viewUse model =
-    div [ style [ "padding" => "2rem" ] ]
-        [ text ("Something else goes here")
-        ]
+    let
+        page =
+            viewDetailPage "Using Midwife-EMR" Verbage.usePageCards Color.primary Color.accent Color.primaryContrast True model
+    in
+        page
 
 
-
---cardContents : Color.Color -> String -> String -> List (Material.Card.Block a)
-
-
+cardContents : Int -> Page -> Model -> Color.Color -> Color.Color -> String -> String -> List (Card.Block Msg)
 cardContents cardIdx page model headColor textColor title content =
     [ Card.title []
         [ Card.head [ Color.text headColor ]
@@ -308,6 +473,7 @@ viewLearnWhatIsCard model =
         [ Card.view
             [ css "width" "100%"
             , Color.background Color.accent
+            , Elevation.e4
             ]
             contents
         ]
@@ -325,6 +491,7 @@ viewLearnFeaturesCard model =
         [ Card.view
             [ css "width" "100%"
             , Color.background Color.primaryDark
+            , Elevation.e4
             ]
             contents
         ]
@@ -342,6 +509,7 @@ viewLearnHowToCard model =
         [ Card.view
             [ css "width" "100%"
             , Color.background Color.primary
+            , Elevation.e4
             ]
             contents
         ]
@@ -359,6 +527,7 @@ viewLearnTrainingCard model =
         [ Card.view
             [ css "width" "100%"
             , Color.background Color.accentContrast
+            , Elevation.e4
             ]
             contents
         ]
@@ -385,6 +554,18 @@ init ws =
         ( newModel, Material.init Mdl )
 
 
+
+-- PORTS
+
+
+{-| We use JS to do the actual scrolling due to needing to scroll a parent element
+    created by MDL that does not have an id, which means that the Elm libraries
+    won't touch it. This will scroll the parent of the element passed (via id) to
+    the top of the screen.
+-}
+port scrollParent : String -> Cmd msg
+
+
 main : Program (Maybe WindowSize)
 main =
     App.programWithFlags
@@ -394,6 +575,7 @@ main =
             \model ->
                 Sub.batch
                     [ Material.subscriptions Mdl model
+                    , Material.Menu.subs Mdl model.mdl
                       -- TODO: Do we even need window resize events?
                     , Window.resizes WindowResize
                     ]
