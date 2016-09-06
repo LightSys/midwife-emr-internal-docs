@@ -1,15 +1,16 @@
 module Model exposing (..)
 
 import Material
+import Template exposing (Template)
 
 
 type alias Model =
-    { mdl :
-        Material.Model
-        -- Boilerplate: model store for any and all Mdl components you use.
+    { mdl : Material.Model
     , selectedTab : Tab
     , selectedPage : Page
     , windowSize : WindowSize
+    , eth0IP : String
+    , wlan0IP : String
     }
 
 
@@ -29,4 +30,17 @@ type Tab
 type alias WindowSize =
     { width : Int
     , height : Int
+    }
+
+
+type alias VerbageRecord =
+    { body : String
+    , title : String
+    , teaser : String
+    }
+
+
+type alias ServerInfo =
+    { eth0IP : String
+    , wlan0IP : String
     }

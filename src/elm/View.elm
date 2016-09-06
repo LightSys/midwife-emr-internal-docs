@@ -190,7 +190,7 @@ infixr 5 :>
 
 
 -}
-viewDetailPage : String -> List ( String, String, String ) -> Color.Color -> Color.Color -> Color.Color -> Bool -> Model -> Html Msg
+viewDetailPage : String -> List VerbageRecord -> Color.Color -> Color.Color -> Color.Color -> Bool -> Model -> Html Msg
 viewDetailPage title cards backColor titleColor textColor isTopLevel model =
     let
         divId =
@@ -205,9 +205,9 @@ viewDetailPage title cards backColor titleColor textColor isTopLevel model =
                 (\idx card ->
                     MList.li [ MList.withBody ]
                         [ MList.content []
-                            [ a [ href <| generateId <| "#" ++ (snd3 card) ]
-                                [ text <| snd3 card ]
-                            , MList.body [] [ text <| trd3 card ]
+                            [ a [ href <| generateId <| "#" ++ (card.title) ]
+                                [ text <| card.title ]
+                            , MList.body [] [ Markdown.toHtml [] <| card.teaser ]
                             ]
                         ]
                 )
@@ -225,12 +225,12 @@ viewDetailPage title cards backColor titleColor textColor isTopLevel model =
                             [ Card.title []
                                 [ Card.head
                                     [ Color.text titleColor
-                                    , Options.attribute <| Html.Attributes.id <| generateId <| snd3 card
+                                    , Options.attribute <| Html.Attributes.id <| generateId <| card.title
                                     ]
-                                    [ text <| snd3 card ]
+                                    [ text <| card.title ]
                                 ]
                             , Card.text [ Color.text textColor ]
-                                [ Markdown.toHtml [] <| fst3 card ]
+                                [ Markdown.toHtml [] <| card.body ]
                             , Card.menu []
                                 [ Button.render Mdl
                                     [ topBtn ]
@@ -299,7 +299,7 @@ viewFeatures model =
 
 viewHow : Model -> Html Msg
 viewHow model =
-    viewDetailPage "How do I ... ?" Verbage.howPageCards Color.primary Color.accent Color.primaryContrast False model
+    viewDetailPage "How do I ... ?" (Verbage.howPageCards model) Color.primary Color.accent Color.primaryContrast False model
 
 
 viewTraining : Model -> Html Msg
@@ -336,7 +336,7 @@ viewUse : Model -> Html Msg
 viewUse model =
     let
         page =
-            viewDetailPage "Using Midwife-EMR" Verbage.usePageCards Color.primary Color.accent Color.primaryContrast True model
+            viewDetailPage "Using Midwife-EMR" (Verbage.usePageCards model) Color.primary Color.accent Color.primaryContrast True model
     in
         page
 

@@ -1,8 +1,13 @@
 port module Main exposing (..)
 
 import Html.App as App
+import Http
+import Json.Decode
+import Json.Decode.Pipeline exposing (decode, required)
 import Material
 import Material.Menu
+import Task
+import Time
 import Window
 
 
@@ -24,16 +29,20 @@ model : Model
 model =
     { mdl =
         Material.model
-        -- Boilerplate: Always use this initial Mdl model store.
     , selectedTab = UseTab
     , selectedPage = MainPage
     , windowSize = windowSizeEmpty
+    , eth0IP = ""
+    , wlan0IP = ""
     }
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
+        NoOp ->
+            model ! []
+
         Mdl msg' ->
             Material.update msg' model
 
@@ -58,6 +67,19 @@ update msg model =
         GoToTop divId ->
             ( model, scrollParent divId )
 
+        FetchServerInfo time ->
+            model ! [ fetchServerInfo ]
+
+        ReceiveServerError err ->
+            let
+                _ =
+                    Debug.log "FetchServerError" err
+            in
+                model ! []
+
+        ReceiveServerInfo info ->
+            ( { model | eth0IP = info.eth0IP, wlan0IP = info.wlan0IP }, Cmd.none )
+
 
 init : Maybe WindowSize -> ( Model, Cmd Msg )
 init ws =
@@ -65,7 +87,28 @@ init ws =
         newModel =
             { model | windowSize = Maybe.withDefault windowSizeEmpty ws }
     in
-        ( newModel, Material.init Mdl )
+        newModel ! [ Material.init Mdl, fetchServerInfo ]
+
+
+
+-- Server Interaction
+
+
+apiEndPoint : String
+apiEndPoint =
+    "/getInfo.json"
+
+
+fetchServerInfo : Cmd Msg
+fetchServerInfo =
+    Task.perform ReceiveServerError ReceiveServerInfo (Http.get infoDecoder apiEndPoint)
+
+
+infoDecoder : Json.Decode.Decoder ServerInfo
+infoDecoder =
+    decode ServerInfo
+        |> required "eth0" Json.Decode.string
+        |> required "wlan0" Json.Decode.string
 
 
 
@@ -92,6 +135,7 @@ main =
                     , Material.Menu.subs Mdl model.mdl
                       -- TODO: Do we even need window resize events?
                     , Window.resizes WindowResize
+                    , Time.every (15 * Time.second) FetchServerInfo
                     ]
         , update = update
         }

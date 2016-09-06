@@ -1,5 +1,14 @@
 module Verbage exposing (..)
 
+import String
+import Template exposing (template, render, withValue, withString)
+import Template.Infix exposing (..)
+
+
+-- LOCAL IMPORTS
+
+import Model exposing (Model, VerbageRecord)
+
 
 learnIntro : String
 learnIntro =
@@ -69,26 +78,26 @@ Watch our training videos to find out more about these topics and many more.
     """
 
 
-howPageCards : List ( String, String, String )
-howPageCards =
-    [ ( howSetup
-      , "Setup the Midwife-EMR appliance for the first time?"
-      , """
+howPageCards : Model -> List VerbageRecord
+howPageCards model =
+    [ { body = howSetup
+      , title = "Setup the Midwife-EMR appliance for the first time?"
+      , teaser = """
 
 How to install and setup the Midwife-EMR appliance. Follow these instructions
 to get started.
 
         """
-      )
-    , ( howRoles
-      , "What are the different roles in Midwife-EMR?"
-      , """
+      }
+    , { body = howRoles
+      , title = "What are the different roles in Midwife-EMR?"
+      , teaser = """
 
 What do roles mean in Midwife-EMR? Find out so that you can use Midwife-EMR and
 take advantage of the various features that it offers.
 
         """
-      )
+      }
     ]
 
 
@@ -169,18 +178,62 @@ information, etc.
 -}
 
 
-usePageCards : List ( String, String, String )
-usePageCards =
-    [ ( viewUseCAInstructions
-      , "Installing the CA Certificate"
-      , """
+usePageCards : Model -> List VerbageRecord
+usePageCards model =
+    [ { body = (viewUseNow model)
+      , title = "Go to Midwife-EMR Now"
+      , teaser = """
+
+If you have already installed the CA Certificate (see below), start using [Midwife-EMR](https://localhost).
+
+        """
+      }
+    , { body = viewUseCAInstructions
+      , title = "Installing the CA Certificate"
+      , teaser = """
 
 Before you can use the Midwife-EMR system, you need to install a CA certificate
 on each computer, tablet, and phone that will be using it. Find out how.
 
         """
-      )
+      }
     ]
+
+
+viewUseNow : Model -> String
+viewUseNow model =
+    let
+        wlan =
+            case String.length model.wlan0IP > 0 of
+                True ->
+                    render (template "- [https://" <% .wlan0IP %> "](https://" <% .wlan0IP %> ")") model
+
+                False ->
+                    ""
+
+        elan =
+            case String.length model.eth0IP > 0 of
+                True ->
+                    render (template "- [https://" <% .eth0IP %> "](https://" <% .eth0IP %> ")") model
+
+                False ->
+                    ""
+
+        content =
+            render
+                (template """
+
+## I want to use it now
+
+            """
+                    |> withString "\n"
+                    |> withString elan
+                    |> withString "\n"
+                    |> withString wlan
+                )
+                model
+    in
+        content
 
 
 viewUseCAInstructions : String
