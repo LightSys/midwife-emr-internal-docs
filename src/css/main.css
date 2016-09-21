@@ -9,3 +9,12 @@
   padding-bottom: 0;
   margin-top: 0;
 }
+
+/* Position go to top button so that long headings
+ * do not hit it.
+ */
+.go-to-top-button {
+  right: -4px;
+  top: -4px;
+  overflow: visible !important;
+}

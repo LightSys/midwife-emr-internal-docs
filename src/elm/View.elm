@@ -10,9 +10,9 @@ import Material.Card as Card
 import Material.Color as Color
 import Material.Elevation as Elevation
 import Material.Grid as Grid exposing (grid, cell, size, Device(..))
+import Material.Icon as Icon
 import Material.Layout as Layout
 import Material.List as MList
-import Material.Menu
 import Material.Options as Options exposing (css, styled, when)
 import Material.Typography as Typo
 import String
@@ -165,19 +165,9 @@ view model =
             }
 
 
-fst3 : ( a, b, c ) -> a
-fst3 ( a, b, c ) =
-    a
-
-
-snd3 : ( a, b, c ) -> b
-snd3 ( a, b, c ) =
-    b
-
-
-trd3 : ( a, b, c ) -> c
-trd3 ( a, b, c ) =
-    c
+titleToId : String -> String -> String
+titleToId title appendage =
+    hash title |> toString |> String.append appendage
 
 
 infixr 5 :>
@@ -186,15 +176,15 @@ infixr 5 :>
     f x
 
 
-{-| Displays
-
-
+{-| Displays an optional back button at the top followed by a table of contents
+    in the form of a list with a link and explanatory text. Each link leads to
+    the section detail.
 -}
 viewDetailPage : String -> List VerbageRecord -> Color.Color -> Color.Color -> Color.Color -> Bool -> Model -> Html Msg
 viewDetailPage title cards backColor titleColor textColor isTopLevel model =
     let
         divId =
-            hash title |> toString |> String.append "divId"
+            titleToId title "divId"
 
         generateId str =
             String.words str
@@ -205,7 +195,10 @@ viewDetailPage title cards backColor titleColor textColor isTopLevel model =
                 (\idx card ->
                     MList.li [ MList.withBody ]
                         [ MList.content []
-                            [ a [ href <| generateId <| "#" ++ (card.title) ]
+                            [ a
+                                [ href <| generateId <| "#" ++ (card.title)
+                                , style [ "color" => "#0288D1" ]
+                                ]
                                 [ text <| card.title ]
                             , MList.body [] [ Markdown.toHtml [] <| card.teaser ]
                             ]
@@ -231,16 +224,16 @@ viewDetailPage title cards backColor titleColor textColor isTopLevel model =
                                 ]
                             , Card.text [ Color.text textColor ]
                                 [ Markdown.toHtml [] <| card.body ]
-                            , Card.menu []
+                            , Card.menu [ Options.cs "go-to-top-button" ]
                                 [ Button.render Mdl
                                     [ topBtn ]
                                     model.mdl
-                                    [ Button.plain
-                                    , Button.ripple
+                                    [ Button.icon
+                                    , Color.background Color.primary
                                     , Color.text Color.white
                                     , Button.onClick (GoToTop divId)
                                     ]
-                                    [ text "Go to top" ]
+                                    [ Icon.i "arrow_upward" ]
                                 ]
                             ]
                         ]
@@ -299,7 +292,13 @@ viewFeatures model =
 
 viewHow : Model -> Html Msg
 viewHow model =
-    viewDetailPage "How do I ... ?" (Verbage.howPageCards model) Color.primary Color.accent Color.primaryContrast False model
+    viewDetailPage "How do I ... ?"
+        (Verbage.howPageCards model)
+        Color.primary
+        Color.accent
+        Color.primaryContrast
+        False
+        model
 
 
 viewTraining : Model -> Html Msg
@@ -334,11 +333,13 @@ viewMain model =
 -}
 viewUse : Model -> Html Msg
 viewUse model =
-    let
-        page =
-            viewDetailPage "Using Midwife-EMR" (Verbage.usePageCards model) Color.primary Color.accent Color.primaryContrast True model
-    in
-        page
+    viewDetailPage "Using Midwife-EMR"
+        (Verbage.usePageCards model)
+        Color.primary
+        Color.accent
+        Color.primaryContrast
+        True
+        model
 
 
 cardContents : Int -> Page -> Model -> Color.Color -> Color.Color -> String -> String -> List (Card.Block Msg)

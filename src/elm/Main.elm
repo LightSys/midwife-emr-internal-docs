@@ -1,4 +1,4 @@
-port module Main exposing (..)
+module Main exposing (..)
 
 import Html.App as App
 import Http
@@ -16,6 +16,7 @@ import Window
 import View exposing (view)
 import Msg exposing (Msg(..))
 import Model exposing (..)
+import Ports exposing (scrollParent)
 
 
 windowSizeEmpty : { width : Int, height : Int }
@@ -41,7 +42,11 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         NoOp ->
-            model ! []
+            let
+                _ =
+                    Debug.log "NoOp" "has been called"
+            in
+                model ! []
 
         Mdl msg' ->
             Material.update msg' model
@@ -109,18 +114,6 @@ infoDecoder =
     decode ServerInfo
         |> required "eth0" Json.Decode.string
         |> required "wlan0" Json.Decode.string
-
-
-
--- PORTS
-
-
-{-| We use JS to do the actual scrolling due to needing to scroll a parent element
-    created by MDL that does not have an id, which means that the Elm libraries
-    won't touch it. This will scroll the parent of the element passed (via id) to
-    the top of the screen.
--}
-port scrollParent : String -> Cmd msg
 
 
 main : Program (Maybe WindowSize)

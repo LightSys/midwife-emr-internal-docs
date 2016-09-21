@@ -81,7 +81,7 @@ Watch our training videos to find out more about these topics and many more.
 howPageCards : Model -> List VerbageRecord
 howPageCards model =
     [ { body = howSetup
-      , title = "Setup the Midwife-EMR appliance for the first time?"
+      , title = "First time setup?"
       , teaser = """
 
 How to install and setup the Midwife-EMR appliance. Follow these instructions
@@ -90,7 +90,7 @@ to get started.
         """
       }
     , { body = howRoles
-      , title = "What are the different roles in Midwife-EMR?"
+      , title = "What are Midwife-EMR roles?"
       , teaser = """
 
 What do roles mean in Midwife-EMR? Find out so that you can use Midwife-EMR and
@@ -106,31 +106,52 @@ howSetup =
     """
 
 **Note: if you are reading these instructions from the Midwife-EMR appliance
-already, you have already done this.**
+already, you probably have already done this.**
 
 1. Verify that you have all of the pieces of the Midwife-EMR appliance.
 
 - The appliance itself.
 - The power adapter for the appliance.
-- The wireless USB antenna.
-- Optionally, a ethernet cable if you are going to attach it into your own network.
+- The wireless USB antenna (optional).
+- A ethernet cable if you are going to attach it into your own network (again optional).
 
-1. Plug the wireless antenna into one of the USB ports on the appliance. It
-does not matter which one of the four ports it is plugged into.
+**Note: the wireless USB antenna and the ethernet cable connecting to your
+router are optional in the sense that you do not need them both. But you do
+need at least one of them in order to use the Midwife-EMR application.**
+
+1. Plug either the wireless antenna into one of the USB ports on the appliance
+or the ethernet cable into the ethernet port on your appliance.
+
+   - TODO: pictures here
 
 1. Plug the power adapter into A/C power and then into the appliance itself.
 There is only one hole in the appliance that this fits into and it is labeled
 "5V-4A" underneath the hole.
 
+   - TODO: picture
+
 1. Wait for the appliance to come online, usually in less than one minute.
 
-1. Now using a device that can connect to a wireless network such as a laptop,
-tablet or phone, look for the new wireless network called "Midwife-EMR".
+1. **If using the wireless antenna:** Now using a device that can connect to a
+wireless network such as a laptop, tablet or phone, look for the new wireless
+network called "Midwife-EMR".
 
-1. Log into this network with the password "midwife".
+   1. Log into this network with the password "midwife".
 
-1. Once you are logged in, use your web browser to go to
-**https://192.168.222.1**.
+   1. Once you are logged in, use your web browser to go to
+   **[https://192.168.222.1](https://192.168.222.1)**.
+
+1. **If using the ethernet cable:** You will need to login to your router in
+order to find the IP address that has been assigned to the Midwife-EMR
+appliance. Once you have that address, use your web browser to go to it.
+
+   - For example, if you router assigned the Midwife-EMR appliance an address
+   of **192.168.0.23**, you would type this address into your browser address
+   bar: **https://192.168.0.23**
+
+   - Do not forget to type **https**. If you type **http** (without the "s"),
+   then you will arrive at the documentation pages (same as you are reading
+   now).
 
     """
 
@@ -184,16 +205,49 @@ usePageCards model =
       , title = "Go to Midwife-EMR Now"
       , teaser = """
 
-If you have already installed the CA Certificate (see below), start using [Midwife-EMR](https://localhost).
+If you have already installed the CA Certificate (see below), start using **Midwife-EMR** now.
 
         """
       }
-    , { body = viewUseCAInstructions
-      , title = "Installing the CA Certificate"
+    , { body = viewUseWhyCA
+      , title = "Why use a CA Certificate?"
       , teaser = """
 
-Before you can use the Midwife-EMR system, you need to install a CA certificate
-on each computer, tablet, and phone that will be using it. Find out how.
+In order to maintain security, before you can use the Midwife-EMR system, you
+need to install a CA certificate on each computer, tablet, and phone that will
+be using it.
+
+        """
+      }
+    , { body = viewUseCAInstructionsChromium
+      , title = "Install a CA Certificate in Chromium"
+      , teaser = """
+
+Find out how to install the CA certificate in your Chromium web browser if you are using a desktop, laptop, or Mac.
+
+        """
+      }
+    , { body = viewUseCAInstructionsFirefox
+      , title = "Install a CA Certificate in Firefox"
+      , teaser = """
+
+Find out how to install the CA certificate in your Firefox web browser if you are using a desktop, laptop, or Mac.
+
+        """
+      }
+    , { body = viewUseCAInstructionsAndroid
+      , title = "Install a CA Certificate in an Android device"
+      , teaser = """
+
+Find out how to install the CA certificate in your Android phone or tablet.
+
+        """
+      }
+    , { body = viewUseCAInstructionsIPadPhone
+      , title = "Install a CA Certificate in an Apple device"
+      , teaser = """
+
+Find out how to install the CA certificate in your Apple iPhone or iPad.
 
         """
       }
@@ -223,7 +277,7 @@ viewUseNow model =
             render
                 (template """
 
-## I want to use it now
+**Choose a link below to use Midwife-EMR now.**
 
             """
                     |> withString "\n"
@@ -236,20 +290,20 @@ viewUseNow model =
         content
 
 
-viewUseCAInstructions : String
-viewUseCAInstructions =
+viewUseWhyCA : String
+viewUseWhyCA =
     """
 
-## Why Security?
+##### Security
 
-Security about medical records is very important and Midwife-EMR takes security
-seriously. That is why there are special, extra steps that you need to take
-before you can use the Midwife-EMR system. These steps help insure that the
-computers, tablets, and phones that you have specifically configured are able
-to access the Midwife-EMR system.
+Security about medical records is very important and Midwife-EMR
+takes security seriously. That is why there are special, extra steps that you
+need to take before you can use the Midwife-EMR system. These steps help insure
+that the computers, tablets, and phones that you have specifically configured
+are able to access the Midwife-EMR system.
 
 
-## What Needs to be Done
+##### What do I do?
 
 Any computer, tablet, or phone that needs to log into your Midwife-EMR system
 will need to have a CA certificate installed in it first. What is a CA
@@ -267,29 +321,85 @@ section as necessary depending on the type of device. It is likely that you
 will have many different types of devices, for example, someone will have a
 laptop and someone else will have a phone, etc.
 
-### Computers - Desktops and Laptops
+    """
 
-**See below for Mac OSX**
 
-For computers, both desktops and laptops, the CA certificate is installed in
-the web browser being used. There are instructions for Chrome and Firefox
-below. What this means is that if you will be using the Firefox web browser on
-the computer, follow the Firefox instructions. If using Chrome, the Chrome
-instructions.
+viewUseCAInstructionsChromium : String
+viewUseCAInstructionsChromium =
+    """
 
-#### Chrome Web Browser
+###### Chromium Web Browser
 
-#### Firefox Web Browser
+1. First you need the CA certificate file, which you can download here:
+<a href="midwife-emr-ca.crt">Midwife-EMR CA Certificate</a>. Please save this
+file where you know you can find it for the steps that follow. (The desktop is
+often a good choice.)
 
-### Mac OSX
+1. <img style="float: right" src="src/assets/ChromiumMenu.png" > First, open settings in the Chromium browser which are in the upper right hand corner. Click on the three dots you see. Choose the **Settings** menu item.
 
-### Android Tablets and Phones
+1. Scroll to the bottom of the new page shown and click on the **Show advanced
+settings...** link.
+
+1. <img style="float: right" src="src/assets/ChromiumManageCertificatesButton.png" > Scroll farther down now
+and find the section called **HTTPS/SSL**. Click on the **Manage certificates**
+button.
+
+1. This will open a dialog called the **Certificate Manager**. First choose the
+third tab at the top called **Authorities** and then click the **Import...**
+button at the bottom. It is important that you click the import button on the
+Authorities tab, not on any other tab.
+
+   <img src="src/assets/ChromiumCertificateManager2.png" >
+
+1. Find the CA certificate file that you downloaded in step 1 above. Choose
+this file and press the Open button in the file selection dialog.
+
+1. You will see the Certificate Authority dialog next and you need to check the
+top checkbox and then click on Ok.
+
+   <img src="src/assets/ChromiumImportDialog2.png" >
+
+1. (Optional) In order to confirm that the certificate was imported into
+Chromium, scroll through the list until you find the Midwife-EMR certificate. The
+certificates are sorted by name so it should be located somewhere close to the
+middle of the list. After you see it, you can click the **Done** button to
+close the Certificate Manager dialog.
+
+   <img src="src/assets/ChromiumImportedCert.png" >
+
+Now you are ready to begin using the Midwife-EMR system.
+
+    """
+
+
+viewUseCAInstructionsFirefox : String
+viewUseCAInstructionsFirefox =
+    """
+
+###### Firefox Web Browser
+
+
+    """
+
+
+viewUseCAInstructionsAndroid : String
+viewUseCAInstructionsAndroid =
+    """
+
+##### Android Tablets and Phones
 
 **See below for iPhone and iPad**
 
 
 
+    """
 
+
+viewUseCAInstructionsIPadPhone : String
+viewUseCAInstructionsIPadPhone =
+    """
+
+##### Apple iPad and iPhone
 
 
     """
