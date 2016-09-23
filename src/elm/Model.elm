@@ -11,6 +11,7 @@ type alias Model =
     , windowSize : WindowSize
     , eth0IP : String
     , wlan0IP : String
+    , hostname : String
     }
 
 
@@ -30,6 +31,15 @@ type Tab
 type alias WindowSize =
     { width : Int
     , height : Int
+    }
+
+
+{-| The shape of the data coming into the program at start up.
+-}
+type alias InitialParams =
+    { height : Maybe Int
+    , width : Maybe Int
+    , hostname : Maybe String
     }
 
 

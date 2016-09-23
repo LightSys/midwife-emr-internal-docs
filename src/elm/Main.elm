@@ -35,6 +35,7 @@ model =
     , windowSize = windowSizeEmpty
     , eth0IP = ""
     , wlan0IP = ""
+    , hostname = ""
     }
 
 
@@ -85,12 +86,24 @@ update msg model =
         ReceiveServerInfo info ->
             ( { model | eth0IP = info.eth0IP, wlan0IP = info.wlan0IP }, Cmd.none )
 
+        SetHostname hostname' ->
+            { model | hostname = hostname' } ! []
 
-init : Maybe WindowSize -> ( Model, Cmd Msg )
-init ws =
+
+init : InitialParams -> ( Model, Cmd Msg )
+init initialParams =
     let
+        height =
+            Maybe.withDefault 0 initialParams.height
+
+        width =
+            Maybe.withDefault 0 initialParams.width
+
+        hostname =
+            Maybe.withDefault "" initialParams.hostname
+
         newModel =
-            { model | windowSize = Maybe.withDefault windowSizeEmpty ws }
+            { model | windowSize = WindowSize height width, hostname = hostname }
     in
         newModel ! [ Material.init Mdl, fetchServerInfo ]
 
@@ -116,7 +129,7 @@ infoDecoder =
         |> required "wlan0" Json.Decode.string
 
 
-main : Program (Maybe WindowSize)
+main : Program InitialParams
 main =
     App.programWithFlags
         { init = init

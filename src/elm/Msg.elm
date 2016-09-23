@@ -21,3 +21,4 @@ type Msg
     | FetchServerInfo Time.Time
     | ReceiveServerError Http.Error
     | ReceiveServerInfo ServerInfo
+    | SetHostname String
