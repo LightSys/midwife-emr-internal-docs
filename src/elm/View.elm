@@ -16,8 +16,6 @@ import Material.List as MList
 import Material.Options as Options exposing (css, styled, when)
 import Material.Typography as Typo
 import String
-import Template exposing (template, render, withValue, withString)
-import Template.Infix exposing (..)
 
 
 -- LOCAL IMPORTS
@@ -65,7 +63,7 @@ topBtn =
 getTabInt : Tab -> Int
 getTabInt tab =
     case tab of
-        UseTab ->
+        SetupTab ->
             0
 
         LearnTab ->
@@ -80,7 +78,7 @@ getIntTab : Int -> Tab
 getIntTab num =
     case num of
         0 ->
-            UseTab
+            SetupTab
 
         1 ->
             LearnTab
@@ -292,7 +290,7 @@ viewDetailPage title cards backColor titleColor textColor isTopLevel model =
                 , css "display" "none" `when` isTopLevel
                 ]
                 [ text "Back" ]
-            , styled p [ Typo.display2 ] [ text title ]
+            , styled p [ Typo.display1 ] [ text title ]
             , MList.ul [] toc
             , grid [] body
             ]
@@ -357,7 +355,7 @@ viewTraining model =
 viewMain : Model -> Html Msg
 viewMain model =
     case model.selectedTab of
-        UseTab ->
+        SetupTab ->
             viewUse model
 
         LearnTab ->
@@ -371,8 +369,8 @@ viewMain model =
 -}
 viewUse : Model -> Html Msg
 viewUse model =
-    viewDetailPage "Using Midwife-EMR"
-        Verbage.usePageCards
+    viewDetailPage "Setting up Midwife-EMR"
+        Verbage.setupPageCards
         Color.primary
         Color.accent
         Color.primaryContrast

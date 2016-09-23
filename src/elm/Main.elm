@@ -30,7 +30,7 @@ model : Model
 model =
     { mdl =
         Material.model
-    , selectedTab = UseTab
+    , selectedTab = SetupTab
     , selectedPage = MainPage
     , windowSize = windowSizeEmpty
     , eth0IP = ""

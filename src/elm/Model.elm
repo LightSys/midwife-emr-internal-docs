@@ -1,7 +1,6 @@
 module Model exposing (..)
 
 import Material
-import Template exposing (Template)
 
 
 type alias Model =
@@ -24,7 +23,7 @@ type Page
 
 
 type Tab
-    = UseTab
+    = SetupTab
     | LearnTab
 
 

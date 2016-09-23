@@ -1,10 +1,5 @@
 module Verbage exposing (..)
 
-import String
-import Template exposing (template, render, withValue, withString)
-import Template.Infix exposing (..)
-
-
 -- LOCAL IMPORTS
 
 import Model exposing (Model, VerbageRecord)
@@ -199,9 +194,9 @@ information, etc.
 -}
 
 
-usePageCards : List VerbageRecord
-usePageCards =
-    [ { body = viewUseNow
+setupPageCards : List VerbageRecord
+setupPageCards =
+    [ { body = viewSetupNow
       , title = "Go to Midwife-EMR Now"
       , teaser = """
 
@@ -209,7 +204,7 @@ If you have already installed the CA Certificate (see below), start using **Midw
 
         """
       }
-    , { body = viewUseWhyCA
+    , { body = viewSetupWhyCA
       , title = "Why use a CA Certificate?"
       , teaser = """
 
@@ -219,7 +214,7 @@ be using it.
 
         """
       }
-    , { body = viewUseCAInstructionsChromium
+    , { body = viewSetupCAInstructionsChromium
       , title = "Install a CA Certificate in Chromium"
       , teaser = """
 
@@ -227,7 +222,7 @@ Find out how to install the CA certificate in your Chromium web browser if you a
 
         """
       }
-    , { body = viewUseCAInstructionsFirefox
+    , { body = viewSetupCAInstructionsFirefox
       , title = "Install a CA Certificate in Firefox"
       , teaser = """
 
@@ -235,7 +230,7 @@ Find out how to install the CA certificate in your Firefox web browser if you ar
 
         """
       }
-    , { body = viewUseCAInstructionsAndroid
+    , { body = viewSetupCAInstructionsAndroid
       , title = "Install a CA Certificate in an Android device"
       , teaser = """
 
@@ -243,7 +238,7 @@ Find out how to install the CA certificate in your Android phone or tablet.
 
         """
       }
-    , { body = viewUseCAInstructionsIPadPhone
+    , { body = viewSetupCAInstructionsIPadPhone
       , title = "Install a CA Certificate in an Apple device"
       , teaser = """
 
@@ -254,8 +249,8 @@ Find out how to install the CA certificate in your Apple iPhone or iPad.
     ]
 
 
-viewUseNow : String
-viewUseNow =
+viewSetupNow : String
+viewSetupNow =
     """
 
 ##### Start Now
@@ -265,8 +260,8 @@ Use the link in the top right corner of this page to start using Midwife-EMR now
     """
 
 
-viewUseWhyCA : String
-viewUseWhyCA =
+viewSetupWhyCA : String
+viewSetupWhyCA =
     """
 
 ##### Security
@@ -299,8 +294,8 @@ laptop and someone else will have a phone, etc.
     """
 
 
-viewUseCAInstructionsChromium : String
-viewUseCAInstructionsChromium =
+viewSetupCAInstructionsChromium : String
+viewSetupCAInstructionsChromium =
     """
 
 ###### Chromium Web Browser
@@ -347,8 +342,8 @@ Now you are ready to begin using the Midwife-EMR system.
     """
 
 
-viewUseCAInstructionsFirefox : String
-viewUseCAInstructionsFirefox =
+viewSetupCAInstructionsFirefox : String
+viewSetupCAInstructionsFirefox =
     """
 
 ###### Firefox Web Browser
@@ -357,8 +352,8 @@ viewUseCAInstructionsFirefox =
     """
 
 
-viewUseCAInstructionsAndroid : String
-viewUseCAInstructionsAndroid =
+viewSetupCAInstructionsAndroid : String
+viewSetupCAInstructionsAndroid =
     """
 
 ##### Android Tablets and Phones
@@ -370,8 +365,8 @@ viewUseCAInstructionsAndroid =
     """
 
 
-viewUseCAInstructionsIPadPhone : String
-viewUseCAInstructionsIPadPhone =
+viewSetupCAInstructionsIPadPhone : String
+viewSetupCAInstructionsIPadPhone =
     """
 
 ##### Apple iPad and iPhone
