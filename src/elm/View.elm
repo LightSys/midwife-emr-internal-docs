@@ -16,6 +16,8 @@ import Material.List as MList
 import Material.Options as Options exposing (css, styled, when)
 import Material.Typography as Typo
 import String
+import Template exposing (template, render, withValue, withString)
+import Template.Infix exposing (..)
 
 
 -- LOCAL IMPORTS
@@ -108,21 +110,61 @@ tabs labels =
     )
 
 
-headerSmall : String -> List (Html a)
-headerSmall title =
-    [ Layout.row []
-        [ Layout.title []
+midwifeLink : String -> String
+midwifeLink hostname =
+    "https://" ++ hostname
+
+
+{-| Show the link to the server that the user is currently connected with
+    so that the user can start Midwife-EMR.
+-}
+headerLink : Model -> Html a
+headerLink model =
+    let
+        isLink =
+            String.length model.hostname
+                > 0
+                && (model.hostname == model.wlan0IP || model.hostname == model.eth0IP)
+
+        link =
+            if isLink then
+                Layout.link
+                    [ Layout.href <| midwifeLink model.hostname
+                    , Color.background <| Color.accentContrast
+                    , Color.text <| Color.accent
+                    ]
+                    [ text "Go to Midwife-EMR" ]
+            else
+                text ""
+    in
+        Layout.navigation [] [ link ]
+
+
+headerSmall : String -> Model -> List (Html a)
+headerSmall title model =
+    let
+        contents =
+            [ Layout.row []
+                [ Layout.title []
+                    [ text title
+                    ]
+                , Layout.spacer
+                , Layout.row [] [ headerLink model ]
+                ]
+            ]
+    in
+        contents
+
+
+{-| Not currently used.
+-}
+header : String -> Model -> List (Html a)
+header title model =
+    [ div []
+        [ h2 [ style [ "padding" => "2rem" ] ]
             [ text title ]
+        , Layout.row [] [ headerLink model ]
         ]
-    ]
-
-
-header : String -> List (Html a)
-header title =
-    [ h2
-        [ style [ "padding" => "2rem" ]
-        ]
-        [ text title ]
     ]
 
 
@@ -153,14 +195,10 @@ view model =
             , Layout.selectedTab (getTabInt model.selectedTab)
             , Layout.onSelectTab (\t -> getIntTab t |> SelectTab)
             ]
-            { header =
-                if model.windowSize.height < 600 then
-                    headerSmall "Welcome to Midwife-EMR"
-                else
-                    header "Welcome to Midwife-EMR"
+            { header = headerSmall "Midwife-EMR" model
             , drawer = []
             , tabs =
-                tabs [ "Use", "Learn" ]
+                tabs [ "Setup", "Learn" ]
             , main = [ main model ]
             }
 
@@ -334,7 +372,7 @@ viewMain model =
 viewUse : Model -> Html Msg
 viewUse model =
     viewDetailPage "Using Midwife-EMR"
-        (Verbage.usePageCards model)
+        Verbage.usePageCards
         Color.primary
         Color.accent
         Color.primaryContrast

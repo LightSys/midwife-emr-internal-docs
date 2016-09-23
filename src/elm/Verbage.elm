@@ -199,9 +199,9 @@ information, etc.
 -}
 
 
-usePageCards : Model -> List VerbageRecord
-usePageCards model =
-    [ { body = (viewUseNow model)
+usePageCards : List VerbageRecord
+usePageCards =
+    [ { body = viewUseNow
       , title = "Go to Midwife-EMR Now"
       , teaser = """
 
@@ -254,40 +254,15 @@ Find out how to install the CA certificate in your Apple iPhone or iPad.
     ]
 
 
-viewUseNow : Model -> String
-viewUseNow model =
-    let
-        wlan =
-            case String.length model.wlan0IP > 0 of
-                True ->
-                    render (template "- [https://" <% .wlan0IP %> "](https://" <% .wlan0IP %> ")") model
+viewUseNow : String
+viewUseNow =
+    """
 
-                False ->
-                    ""
+##### Start Now
 
-        elan =
-            case String.length model.eth0IP > 0 of
-                True ->
-                    render (template "- [https://" <% .eth0IP %> "](https://" <% .eth0IP %> ")") model
+Use the link in the top right corner of this page to start using Midwife-EMR now.
 
-                False ->
-                    ""
-
-        content =
-            render
-                (template """
-
-**Choose a link below to use Midwife-EMR now.**
-
-            """
-                    |> withString "\n"
-                    |> withString elan
-                    |> withString "\n"
-                    |> withString wlan
-                )
-                model
-    in
-        content
+    """
 
 
 viewUseWhyCA : String
