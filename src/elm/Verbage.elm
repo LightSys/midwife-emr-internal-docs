@@ -5,21 +5,29 @@ module Verbage exposing (..)
 import Model exposing (Model, VerbageRecord)
 
 
+{-| TODO:
+    1. Replace image with one of the aluminum shell case.
+-}
 learnIntro : String
 learnIntro =
     """
 
-**Midwife-EMR** is software that is specifically made for midwives in order to
-help them manage patient medical records. Midwife-EMR is designed for the full
-breadth of pregnancy care from prenatal through labor/delivery and postpartum
-*(labor/delivery still in development)*.
+**Midwife-EMR** is software that is specifically made for midwifery clinics in
+order to help manage patient medical records. Midwife-EMR is designed for the
+full breadth of pregnancy care from prenatal through labor/delivery and
+postpartum *(note that labor, delivery and post-partum features are still in
+development)*.
 
 <img style="float: right" src="src/assets/IMG_7206_cropped_96x96.JPG" >
-Midwife-EMR is free, open-source software that is able to run on a number of
-different computer devices including a small appliance like this Odroid or
-a laptop/desktop. But since Midwife-EMR is a browser application, that
-means that midwives can use the application on everything from their
-computers to their phones or tablets.
+Midwife-EMR is free, open-source software that is designed to run on a small
+appliance known as an Odroid XU4. The XU4 is inexpensive, powerful, and does
+not use much electricity which allows it to operate for relatively long periods
+of time on a battery backup system.
+
+But from the perspective of a Midwife-EMR user, Midwife-EMR is simply an
+application that is used in a web browser. That means that midwives can use the
+application on everything from their laptop or desktop computers, their phones
+or their tablets.
 
     """
 
@@ -47,7 +55,7 @@ howIntro =
     """
 
 Midwives find that **Midwife-EMR is easy to learn and here you can find answers
-to any questions that you may have as you begin to explore using Midwife-EMR.
+to many of the questions that you may have as you begin to explore using Midwife-EMR.
 
 ** how do I ...?**
 
@@ -79,8 +87,8 @@ howPageCards model =
       , title = "First time setup?"
       , teaser = """
 
-How to install and setup the Midwife-EMR appliance. Follow these instructions
-to get started.
+How to install and setup the Midwife-EMR appliance itself. Follow these
+instructions to get started.
 
         """
       }
@@ -131,14 +139,16 @@ There is only one hole in the appliance that this fits into and it is labeled
 wireless network such as a laptop, tablet or phone, look for the new wireless
 network called "Midwife-EMR".
 
-   1. Log into this network with the password "midwife".
+   1. Log into this network with the password "midwifery".
 
    1. Once you are logged in, use your web browser to go to
    **[https://192.168.222.1](https://192.168.222.1)**.
 
 1. **If using the ethernet cable:** You will need to login to your router in
 order to find the IP address that has been assigned to the Midwife-EMR
-appliance. Once you have that address, use your web browser to go to it.
+appliance. The Midwife-EMR appliance will request an IP address from your
+router using DHCP. Once you have that address, use your web browser to go to
+it.
 
    - For example, if you router assigned the Midwife-EMR appliance an address
    of **192.168.0.23**, you would type this address into your browser address
@@ -146,7 +156,24 @@ appliance. Once you have that address, use your web browser to go to it.
 
    - Do not forget to type **https**. If you type **http** (without the "s"),
    then you will arrive at the documentation pages (same as you are reading
-   now).
+   now). If you get there, you will find a link to the Midwife-EMR system in
+   the upper right hand corner of the page that you can click on to access the
+   Midwife-EMR system.
+
+1. Once you have reached the Midwife-EMR system using your web browser, you
+will see the login page. For a fresh installation, there already is one user
+account in the Midwife-EMR system - the username is "admin" and the password is
+"admin". Login using that username and password.
+
+1. Once logged in, immediately change the admin password to something that you
+will remember and is secure. Please do not lose the password.
+
+   1. Click on the profile menu in the upper right hand corner of the page.
+   1. Enter your new password in both password fields and click "Save" at the bottom.
+
+1. Now setup more user accounts...
+
+
 
     """
 
@@ -155,42 +182,84 @@ howRoles : String
 howRoles =
     """
 
-The "roles" in Midwife-EMR are like job descriptions. Midwife-EMR
-recognizes that many clinics have staff that are midwives and/or nurses and
-other staff that are clerks, etc. Of course, in your clinic your director
-may decide not to use the roles or to use some of them only. That is fine
-because roles exist to make the Midwife-EMR system easier to use and you
-can use it as seems best for your clinic.
+**What is a role?** The "roles" in Midwife-EMR are like job descriptions.
+Midwife-EMR recognizes that many clinics have staff that are midwives and/or
+nurses and other staff that are clerks, or guards, etc. The purpose of roles in
+Midwife-EMR is to allow some staff full access to medical information, for
+example, the supervisor and attending roles. Other staff may have much more
+limited access (such as the clerk role). Some roles might only have access to
+patient names such as the guard role. Finally, the administrator role cannot
+view or change patient information at all, but can configure how Midwife-EMR
+operates.
+
+**Are all roles necessary?** Of course, in your clinic your director may decide
+to not use all of the roles.  That is fine because roles exist to make the
+Midwife-EMR system easier to use and you can use it as seems best for your
+clinic. At a minimum, every Midwife-EMR installation will require the use of
+    the administrator and supervisor roles.
+
+**What if a person needs more than one role?** Finally, each staff member in
+the system can only be assigned one role. In certain cases, for example the
+clinic director, there is a need for one person to have access to multiple
+roles. In that case, it is as simple as creating a user account for each role.
+When needing to use Midwife-EMR in the other role, it is as simple as logging
+out and logging in again using the other user account.
+
+**Can more than one person be in the same role?** Yes, that is how Midwife-EMR
+is supposed to be used. It is assumed that you will have many users that are
+assigned the same role. For example, maybe you have 3 lead midwive supervisors
+named "Sari", "Stacy" and "Sue" who would be in the supervisor role. Maybe you
+don't have any trainees right now so there is no one in the attending role. But
+you do have 2 clerk, "Carrie" and "Cris", and two administrators, "Angelie" and
+"Ariel". In other words, there is no limit to the number of users that can be
+assigned a role. The only limitation is that any one user account can only be
+associated with one role.
 
 So, what are the roles? There are five (5) roles within Midwife-EMR.
 
-**Administrator:** The administrator is a person that can set up the
+**Administrator:** The administrator role is for persons that can set up the
 Midwife-EMR system for your clinic. The administrator cannot view or edit
 any patient data. Instead, the administrator's role enables that person or
-persons to do things like manage users (add, edit, deactivate), manage
+persons to do things like manage users (add, edit, deactivate staff), manage
 medications and vaccinations, set the clinic name, address and other
 information, etc.
 
-**Supervisor:**
+**Supervisor:** The supervisor role is for senior midwives. Any user assigned
+the supervisor role can see and change all medical information for any patient.
 
-**Clerk:**
+**Attending:** The attending role is for midwives in training. Any user
+assigned the attending role will need to choose a supervisor that she is
+reporting to from a list of supervisors whenever she logs into the Midwife-EMR
+system. The assumption is that a user in the attending role is being taught and
+supervised by a supervisor.
 
-**Guard:**
+**Clerk:** The clerk role is for staff that are not midwives but are helping
+with patient management. The only patient information that a user in the clerk
+role can change is recording blood pressure and weight. But there are numerous
+other functions that the clerk can perform such as running reports, checking in
+and out patients, etc.
 
-**Attending:**
+**Guard:** The guard role is for staff that are solely responsible for checking
+in and out patients. This role is optional in that usually only large clinics
+    will find the need for this role. The users that have the guard role do not
+    have any access to patient medical information, but they are able to do
+    patient searches in order to allow them to check in and check out patients.
 
+**Summary:** The only two roles that are essential are the administrator and
+the supervisor roles. Even at that, only the supervisor role will likely be
+used every day. The administrator role is only used for the initial system
+configuration of Midwife-EMR and on occasion when settings need to be adjusted.
 
     """
 
 
 
-{-
-   ### add midwives and staff to Midwife-EMR?
-
-
-
-
-   ### generate a report?
+{- To add to the how section:
+   - adding users
+   - reports
+   - Viewing history
+   - Checking in/out, how it works, and is optional
+   - labor/delivery/post-partum is coming
 -}
 
 
@@ -214,11 +283,11 @@ be using it.
 
         """
       }
-    , { body = viewSetupCAInstructionsChromium
-      , title = "Install a CA Certificate in Chromium"
+    , { body = viewSetupCAInstructionsChrome
+      , title = "Install a CA Certificate in Google Chrome"
       , teaser = """
 
-Find out how to install the CA certificate in your Chromium web browser if you are using a desktop, laptop, or Mac.
+Find out how to install the CA certificate in your Chrome web browser if you are using a desktop, laptop, or Mac.
 
         """
       }
@@ -227,6 +296,14 @@ Find out how to install the CA certificate in your Chromium web browser if you a
       , teaser = """
 
 Find out how to install the CA certificate in your Firefox web browser if you are using a desktop, laptop, or Mac.
+
+        """
+      }
+    , { body = viewSetupCAInstructionsChromium
+      , title = "Install a CA Certificate in Chromium"
+      , teaser = """
+
+Find out how to install the CA certificate in your Chromium (not Chrome) web browser if you are using a desktop, laptop, or Mac.
 
         """
       }
@@ -294,6 +371,63 @@ laptop and someone else will have a phone, etc.
     """
 
 
+viewSetupCAInstructionsChrome : String
+viewSetupCAInstructionsChrome =
+    """
+
+```
+TODO: Add pictures.
+```
+
+###### Google Chrome Web Browser
+
+1. First you need the CA certificate file, which you can download here:
+<a href="midwife-emr-ca.crt">Midwife-EMR CA Certificate</a>. Please save this
+file where you know you can find it for the steps that follow. (The desktop is
+often a good choice.)
+
+1. <img style="float: right" src="src/assets/ChromiumMenu.png" > First, open settings in the Chromium browser which are in the upper right hand corner. Click on the three dots you see. Choose the **Settings** menu item.
+
+1. Scroll to the bottom of the new page shown and click on the **Show advanced
+settings...** link.
+
+1. <img style="float: right" src="src/assets/ChromiumManageCertificatesButton.png" > Scroll farther down now
+and find the section called **HTTPS/SSL**. Click on the **Manage certificates**
+button.
+
+1. This will open a dialog called the **Certificate Manager**. First choose the
+fourth tab at the top called **Trusted Root Certificate Authorities** and then
+    click the **Import...** button at the bottom. It is important that you
+    click the import button on this tab, not on any other tab.
+
+1. You will see the Certificate Import Wizard dialog. Click on the **Next** button.
+
+1. The next page, called the File to Import page, will want you to specify the
+CA file to import. Press the **Browse** button and find the CA file that you
+saved in step 1. Click the **Open** button once you have found and selected the
+file. Back in the File to Import dialog, click on the **Next** button.
+
+1. The radio button should already have "Place all certificates in the
+following store" selected and below that it should list the "Trusted Root
+Certificate Authorities". If that is the case, click on the **Next** button. If
+that is not the case, go back a few steps and make sure that the "Trusted Root
+Certificate Authorities" tab is selected.
+
+1. The final page of the wizard should be titled "Completing the Certificate
+Import Wizard". Click on the **Finish** button at the bottom.
+
+1. This will bring up a "Security Warning" box. At the bottom it will ask, "Do
+you want to install this certificate?" Click on the **Yes** button.
+
+1. It should display a message that the import was successful.
+
+1. Click on the **Close** button on the Certificates dialog and then close the
+Settings tab in the browser.
+
+
+    """
+
+
 viewSetupCAInstructionsChromium : String
 viewSetupCAInstructionsChromium =
     """
@@ -347,6 +481,11 @@ viewSetupCAInstructionsFirefox =
     """
 
 ###### Firefox Web Browser
+
+1. First you need the CA certificate file, which you can download here:
+<a href="midwife-emr-ca.crt">Midwife-EMR CA Certificate</a>. Please save this
+file where you know you can find it for the steps that follow. (The desktop is
+often a good choice.)
 
 
     """

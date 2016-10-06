@@ -27,6 +27,8 @@ type Tab
     | LearnTab
 
 
+{-| The shape of window resize events.
+-}
 type alias WindowSize =
     { width : Int
     , height : Int
@@ -42,6 +44,8 @@ type alias InitialParams =
     }
 
 
+{-| The shape of the documentation records.
+-}
 type alias VerbageRecord =
     { body : String
     , title : String
@@ -49,6 +53,9 @@ type alias VerbageRecord =
     }
 
 
+{-| The shape of the data coming from the server when fetching
+    server information.
+-}
 type alias ServerInfo =
     { eth0IP : String
     , wlan0IP : String
