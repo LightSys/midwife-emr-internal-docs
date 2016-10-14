@@ -307,11 +307,11 @@ Find out how to install the CA certificate in your Chromium (not Chrome) web bro
 
         """
       }
-    , { body = viewSetupCAInstructionsAndroid
-      , title = "Install a CA Certificate in an Android device"
+    , { body = viewSetupCAInstructionsFirefoxAndroid
+      , title = "Install a CA Certificate in Firefox on Android"
       , teaser = """
 
-Find out how to install the CA certificate in your Android phone or tablet.
+We do not recommend using Firefox on Android. See why below.
 
         """
       }
@@ -483,7 +483,7 @@ viewSetupCAInstructionsFirefox =
 ###### Firefox Web Browser
 
 1. First you need the CA certificate file, which you can download here:
-<a href="midwife-emr-ca.crt">Midwife-EMR CA Certificate</a>. Please save this
+<a href="midwife-emr-ca.crt" rel="nofollow">Midwife-EMR CA Certificate</a>. Please save this
 file where you know you can find it for the steps that follow. (The desktop is
 often a good choice.)
 
@@ -491,16 +491,17 @@ often a good choice.)
     """
 
 
-viewSetupCAInstructionsAndroid : String
-viewSetupCAInstructionsAndroid =
+viewSetupCAInstructionsFirefoxAndroid : String
+viewSetupCAInstructionsFirefoxAndroid =
     """
 
-##### Android Tablets and Phones
+###### Firefox Web Browser in Android
 
-**See below for iPhone and iPad**
+The Android version of Firefox is not recommended for use with the Midwife-EMR
+system. This is because currently it does not allow for the management of
+custom CA certificates which Midwife-EMR requires.
 
-
-
+We recommend that you use the Chrome Web Browser for Android instead.
     """
 
 
