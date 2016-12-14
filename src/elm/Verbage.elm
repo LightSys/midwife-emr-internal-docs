@@ -5,9 +5,54 @@ module Verbage exposing (..)
 import Model exposing (Model, VerbageRecord)
 
 
-{-| TODO:
-    1. Replace image with one of the aluminum shell case.
--}
+whatIsPage : String
+whatIsPage =
+    """
+## What is Midwife-EMR?
+
+
+
+#### it began with a need
+
+Midwife-EMR was born out of the need for an electronic medical records system
+to handle midwifery patients in a large charity lying-in maternity clinic in
+the Philippines. After nearly 20 years of operation, the clinic was overwhelmed
+with paperwork which meant that sometimes records took a while to locate.
+Additional reporting requirements of various government agencies also meant the
+staff was consumed with many hours of report "generation" by hand, often typing
+the same information repeatedly for various reports because there was no
+central computer system or software that would generate the reports that they
+needed.
+
+<img style="float: left; padding-right: 1em;" src="src/assets/IMG_6744_180x.JPG" >
+After researching the various software alternatives available, it was
+determined that affordable midwifery software that catered to the needs of
+lying-in maternity clinics in the developing world *did not exist*.
+Midwife-EMR was "born" of the twin goals of creating a medical records
+system that was easy to use and was a high-quality medical records
+management system.
+
+#### it continues with a goal
+
+<img style="float: right; padding-left: 1em;" src="src/assets/IMG_6288_180x.JPG" >
+After the first phase of Midwife-EMR was finished which covered prenatal care,
+Midiwfe-EMR was used in a large maternity clinic as a trial. The clinic used
+Midwife-EMR exclusively and performed an average of 1,000 prenatal exams every
+month. The clinic had up to 12 staff simultaneously using Midwife-EMR
+performing various patient tasks such as recording medical data, patient
+searches, checking in and out patients, running reports, etc.
+
+It did not take long to realize that Midwife-EMR needed to be expanded to
+encompass the full breadth of midwifery care - not just prenatal but labor,
+delivery and postpartum as well. These features are still being developed as of
+    October 2016.
+
+
+
+
+    """
+
+
 learnIntro : String
 learnIntro =
     """
@@ -18,7 +63,7 @@ full breadth of pregnancy care from prenatal through labor/delivery and
 postpartum *(note that labor, delivery and post-partum features are still in
 development)*.
 
-<img style="float: right" src="src/assets/IMG_7206_cropped_96x96.JPG" >
+<img style="float: right" src="src/assets/IMG_20161008_120337_rotated_scaled_200x.jpg" >
 Midwife-EMR is free, open-source software that is designed to run on a small
 appliance known as an Odroid XU4. The XU4 is inexpensive, powerful, and does
 not use much electricity which allows it to operate for relatively long periods
@@ -315,6 +360,14 @@ We do not recommend using Firefox on Android. See why below.
 
         """
       }
+    , { body = viewSetupCAInstructionsKindleFire
+      , title = "Install a CA Certificate in a Kindle Fire device"
+      , teaser = """
+
+Find out how to install the CA certificate in your Kindle Fire.
+
+        """
+      }
     , { body = viewSetupCAInstructionsIPadPhone
       , title = "Install a CA Certificate in an Apple device"
       , teaser = """
@@ -502,6 +555,51 @@ system. This is because currently it does not allow for the management of
 custom CA certificates which Midwife-EMR requires.
 
 We recommend that you use the Chrome Web Browser for Android instead.
+    """
+
+
+viewSetupCAInstructionsKindleFire : String
+viewSetupCAInstructionsKindleFire =
+    """
+
+1. First you need the CA certificate file, which you can download here: <a
+href="midwife-emr-ca.der.crt">Midwife-EMR CA Certificate for Fire</a>. This will
+by default download the file to your Download directory.
+
+2. You will likely be immediately prompted at the bottom of the screen with an
+option to **Open** the file. Press **Open**.
+
+3. (Optional, if needed) If you do not see the prompt in step 2, or miss it, you can
+open the Download folder and select the **midwife-emr-ca.der.crt** file in
+order to start the installation process. But you may need to install an app
+from the App store in order to do this. The ES File Explorer app or one like it
+will work.
+
+4. You will see a dialog box titled "Name the certificate". In the
+**Certificate name** field, enter a reasonable name for the certificate such as
+"Midwife-EMR". The name is for your sake in remembering why this certificate
+was installed.
+
+5. The **Credential use** field should already say "VPN and apps", so there is
+no need to change it. The certificate will not be used for any VPN usage, but
+it will be used for the Midwife-EMR application.
+
+6. Press the **Ok** button in the dialog.
+
+7. You may see an **Attention** dialog box informing you that you need to set a
+lock screen PIN or password before you can use credential storage. You will
+only see this dialog if you do not have a lock screen PIN or password already
+set. Press **Ok** and it will take you to a **Lock Screen Passcode** screen.
+Choose to set either a PIN or password according to your preference (you select
+one or the other at the top). Then press the **Finish** button.
+
+8. Finally, because you installed this certificate which did not come with the Kindle
+Fire, you will need a new warning message when you swipe down from the top of your
+Kindle. It will say, "Network may be monitored: By an unknown party". This is because
+the Kindle cannot distinguish between a VPN certificate and one that is used for an
+application. The Midwife-EMR application does not monitor the network and it does not
+operate as a VPN. You can safely ignore this warning.
+
     """
 
 

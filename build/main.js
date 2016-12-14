@@ -14694,6 +14694,7 @@ var _kbsymanz$midwife_emr_internal_docs$Msg$Mdl = function (a) {
 var _kbsymanz$midwife_emr_internal_docs$Msg$NoOp = {ctor: 'NoOp'};
 
 var _kbsymanz$midwife_emr_internal_docs$Verbage$viewSetupCAInstructionsIPadPhone = '\n\n##### Apple iPad and iPhone\n\n\n    ';
+var _kbsymanz$midwife_emr_internal_docs$Verbage$viewSetupCAInstructionsKindleFire = '\n\n1. First you need the CA certificate file, which you can download here: <a\nhref=\"midwife-emr-ca.der.crt\">Midwife-EMR CA Certificate for Fire</a>. This will\nby default download the file to your Download directory.\n\n2. You will likely be immediately prompted at the bottom of the screen with an\noption to **Open** the file. Press **Open**.\n\n3. (Optional, if needed) If you do not see the prompt in step 2, or miss it, you can\nopen the Download folder and select the **midwife-emr-ca.der.crt** file in\norder to start the installation process. But you may need to install an app\nfrom the App store in order to do this. The ES File Explorer app or one like it\nwill work.\n\n4. You will see a dialog box titled \"Name the certificate\". In the\n**Certificate name** field, enter a reasonable name for the certificate such as\n\"Midwife-EMR\". The name is for your sake in remembering why this certificate\nwas installed.\n\n5. The **Credential use** field should already say \"VPN and apps\", so there is\nno need to change it. The certificate will not be used for any VPN usage, but\nit will be used for the Midwife-EMR application.\n\n6. Press the **Ok** button in the dialog.\n\n7. You may see an **Attention** dialog box informing you that you need to set a\nlock screen PIN or password before you can use credential storage. You will\nonly see this dialog if you do not have a lock screen PIN or password already\nset. Press **Ok** and it will take you to a **Lock Screen Passcode** screen.\nChoose to set either a PIN or password according to your preference (you select\none or the other at the top). Then press the **Finish** button.\n\n8. Finally, because you installed this certificate which did not come with the Kindle\nFire, you will need a new warning message when you swipe down from the top of your\nKindle. It will say, \"Network may be monitored: By an unknown party\". This is because\nthe Kindle cannot distinguish between a VPN certificate and one that is used for an\napplication. The Midwife-EMR application does not monitor the network and it does not\noperate as a VPN. You can safely ignore this warning.\n\n    ';
 var _kbsymanz$midwife_emr_internal_docs$Verbage$viewSetupCAInstructionsFirefoxAndroid = '\n\n###### Firefox Web Browser in Android\n\nThe Android version of Firefox is not recommended for use with the Midwife-EMR\nsystem. This is because currently it does not allow for the management of\ncustom CA certificates which Midwife-EMR requires.\n\nWe recommend that you use the Chrome Web Browser for Android instead.\n    ';
 var _kbsymanz$midwife_emr_internal_docs$Verbage$viewSetupCAInstructionsFirefox = '\n\n###### Firefox Web Browser\n\n1. First you need the CA certificate file, which you can download here:\n<a href=\"midwife-emr-ca.crt\" rel=\"nofollow\">Midwife-EMR CA Certificate</a>. Please save this\nfile where you know you can find it for the steps that follow. (The desktop is\noften a good choice.)\n\n\n    ';
 var _kbsymanz$midwife_emr_internal_docs$Verbage$viewSetupCAInstructionsChromium = '\n\n###### Chromium Web Browser\n\n1. First you need the CA certificate file, which you can download here:\n<a href=\"midwife-emr-ca.crt\">Midwife-EMR CA Certificate</a>. Please save this\nfile where you know you can find it for the steps that follow. (The desktop is\noften a good choice.)\n\n1. <img style=\"float: right\" src=\"src/assets/ChromiumMenu.png\" > First, open settings in the Chromium browser which are in the upper right hand corner. Click on the three dots you see. Choose the **Settings** menu item.\n\n1. Scroll to the bottom of the new page shown and click on the **Show advanced\nsettings...** link.\n\n1. <img style=\"float: right\" src=\"src/assets/ChromiumManageCertificatesButton.png\" > Scroll farther down now\nand find the section called **HTTPS/SSL**. Click on the **Manage certificates**\nbutton.\n\n1. This will open a dialog called the **Certificate Manager**. First choose the\nthird tab at the top called **Authorities** and then click the **Import...**\nbutton at the bottom. It is important that you click the import button on the\nAuthorities tab, not on any other tab.\n\n   <img src=\"src/assets/ChromiumCertificateManager2.png\" >\n\n1. Find the CA certificate file that you downloaded in step 1 above. Choose\nthis file and press the Open button in the file selection dialog.\n\n1. You will see the Certificate Authority dialog next and you need to check the\ntop checkbox and then click on Ok.\n\n   <img src=\"src/assets/ChromiumImportDialog2.png\" >\n\n1. (Optional) In order to confirm that the certificate was imported into\nChromium, scroll through the list until you find the Midwife-EMR certificate. The\ncertificates are sorted by name so it should be located somewhere close to the\nmiddle of the list. After you see it, you can click the **Done** button to\nclose the Certificate Manager dialog.\n\n   <img src=\"src/assets/ChromiumImportedCert.png\" >\n\nNow you are ready to begin using the Midwife-EMR system.\n\n    ';
@@ -14708,6 +14709,7 @@ var _kbsymanz$midwife_emr_internal_docs$Verbage$setupPageCards = _elm_lang$core$
 		{body: _kbsymanz$midwife_emr_internal_docs$Verbage$viewSetupCAInstructionsFirefox, title: 'Install a CA Certificate in Firefox', teaser: '\n\nFind out how to install the CA certificate in your Firefox web browser if you are using a desktop, laptop, or Mac.\n\n        '},
 		{body: _kbsymanz$midwife_emr_internal_docs$Verbage$viewSetupCAInstructionsChromium, title: 'Install a CA Certificate in Chromium', teaser: '\n\nFind out how to install the CA certificate in your Chromium (not Chrome) web browser if you are using a desktop, laptop, or Mac.\n\n        '},
 		{body: _kbsymanz$midwife_emr_internal_docs$Verbage$viewSetupCAInstructionsFirefoxAndroid, title: 'Install a CA Certificate in Firefox on Android', teaser: '\n\nWe do not recommend using Firefox on Android. See why below.\n\n        '},
+		{body: _kbsymanz$midwife_emr_internal_docs$Verbage$viewSetupCAInstructionsKindleFire, title: 'Install a CA Certificate in a Kindle Fire device', teaser: '\n\nFind out how to install the CA certificate in your Kindle Fire.\n\n        '},
 		{body: _kbsymanz$midwife_emr_internal_docs$Verbage$viewSetupCAInstructionsIPadPhone, title: 'Install a CA Certificate in an Apple device', teaser: '\n\nFind out how to install the CA certificate in your Apple iPhone or iPad.\n\n        '}
 	]);
 var _kbsymanz$midwife_emr_internal_docs$Verbage$howRoles = '\n\n**What is a role?** The \"roles\" in Midwife-EMR are like job descriptions.\nMidwife-EMR recognizes that many clinics have staff that are midwives and/or\nnurses and other staff that are clerks, or guards, etc. The purpose of roles in\nMidwife-EMR is to allow some staff full access to medical information, for\nexample, the supervisor and attending roles. Other staff may have much more\nlimited access (such as the clerk role). Some roles might only have access to\npatient names such as the guard role. Finally, the administrator role cannot\nview or change patient information at all, but can configure how Midwife-EMR\noperates.\n\n**Are all roles necessary?** Of course, in your clinic your director may decide\nto not use all of the roles.  That is fine because roles exist to make the\nMidwife-EMR system easier to use and you can use it as seems best for your\nclinic. At a minimum, every Midwife-EMR installation will require the use of\n    the administrator and supervisor roles.\n\n**What if a person needs more than one role?** Finally, each staff member in\nthe system can only be assigned one role. In certain cases, for example the\nclinic director, there is a need for one person to have access to multiple\nroles. In that case, it is as simple as creating a user account for each role.\nWhen needing to use Midwife-EMR in the other role, it is as simple as logging\nout and logging in again using the other user account.\n\n**Can more than one person be in the same role?** Yes, that is how Midwife-EMR\nis supposed to be used. It is assumed that you will have many users that are\nassigned the same role. For example, maybe you have 3 lead midwive supervisors\nnamed \"Sari\", \"Stacy\" and \"Sue\" who would be in the supervisor role. Maybe you\ndon\'t have any trainees right now so there is no one in the attending role. But\nyou do have 2 clerk, \"Carrie\" and \"Cris\", and two administrators, \"Angelie\" and\n\"Ariel\". In other words, there is no limit to the number of users that can be\nassigned a role. The only limitation is that any one user account can only be\nassociated with one role.\n\nSo, what are the roles? There are five (5) roles within Midwife-EMR.\n\n**Administrator:** The administrator role is for persons that can set up the\nMidwife-EMR system for your clinic. The administrator cannot view or edit\nany patient data. Instead, the administrator\'s role enables that person or\npersons to do things like manage users (add, edit, deactivate staff), manage\nmedications and vaccinations, set the clinic name, address and other\ninformation, etc.\n\n**Supervisor:** The supervisor role is for senior midwives. Any user assigned\nthe supervisor role can see and change all medical information for any patient.\n\n**Attending:** The attending role is for midwives in training. Any user\nassigned the attending role will need to choose a supervisor that she is\nreporting to from a list of supervisors whenever she logs into the Midwife-EMR\nsystem. The assumption is that a user in the attending role is being taught and\nsupervised by a supervisor.\n\n**Clerk:** The clerk role is for staff that are not midwives but are helping\nwith patient management. The only patient information that a user in the clerk\nrole can change is recording blood pressure and weight. But there are numerous\nother functions that the clerk can perform such as running reports, checking in\nand out patients, etc.\n\n**Guard:** The guard role is for staff that are solely responsible for checking\nin and out patients. This role is optional in that usually only large clinics\n    will find the need for this role. The users that have the guard role do not\n    have any access to patient medical information, but they are able to do\n    patient searches in order to allow them to check in and check out patients.\n\n**Summary:** The only two roles that are essential are the administrator and\nthe supervisor roles. Even at that, only the supervisor role will likely be\nused every day. The administrator role is only used for the initial system\nconfiguration of Midwife-EMR and on occasion when settings need to be adjusted.\n\n    ';
@@ -14722,7 +14724,8 @@ var _kbsymanz$midwife_emr_internal_docs$Verbage$howPageCards = function (model) 
 var _kbsymanz$midwife_emr_internal_docs$Verbage$trainingIntro = '\n\nDoes your staff need additional training? Do you need help understanding how to\nsetup your initial medicines, vaccinations, and other tables? Do you wonder\nwhat is the best way to start using Midwife-EMR in your clinic?\n\nWatch our training videos to find out more about these topics and many more.\n\n    ';
 var _kbsymanz$midwife_emr_internal_docs$Verbage$howIntro = '\n\nMidwives find that **Midwife-EMR is easy to learn and here you can find answers\nto many of the questions that you may have as you begin to explore using Midwife-EMR.\n\n** how do I ...?**\n\n- setup my Midwife-EMR appliance for the first time?\n- add midwives and staff to Midwife-EMR?\n- understand what the different roles are?\n- generate a report?\n- more ...\n\n    ';
 var _kbsymanz$midwife_emr_internal_docs$Verbage$featuresIntro = '\n\nMidwife-EMR has a number of features that are designed to the\nparticular needs of midwives.\n\n- **Easy** to use web pages.\n- Midwifes can use it on their **desktops, laptops, tablets and phones**.\n- **No Internet required** to work.\n- **Fast** patient searches on a number of different criteria.\n- Quickly **generates reports** as required by the **Department of Health** and **PHIC**.\n- **Unlimited** number of patients.\n- **Strong security features**.\n\n    ';
-var _kbsymanz$midwife_emr_internal_docs$Verbage$learnIntro = '\n\n**Midwife-EMR** is software that is specifically made for midwifery clinics in\norder to help manage patient medical records. Midwife-EMR is designed for the\nfull breadth of pregnancy care from prenatal through labor/delivery and\npostpartum *(note that labor, delivery and post-partum features are still in\ndevelopment)*.\n\n<img style=\"float: right\" src=\"src/assets/IMG_7206_cropped_96x96.JPG\" >\nMidwife-EMR is free, open-source software that is designed to run on a small\nappliance known as an Odroid XU4. The XU4 is inexpensive, powerful, and does\nnot use much electricity which allows it to operate for relatively long periods\nof time on a battery backup system.\n\nBut from the perspective of a Midwife-EMR user, Midwife-EMR is simply an\napplication that is used in a web browser. That means that midwives can use the\napplication on everything from their laptop or desktop computers, their phones\nor their tablets.\n\n    ';
+var _kbsymanz$midwife_emr_internal_docs$Verbage$learnIntro = '\n\n**Midwife-EMR** is software that is specifically made for midwifery clinics in\norder to help manage patient medical records. Midwife-EMR is designed for the\nfull breadth of pregnancy care from prenatal through labor/delivery and\npostpartum *(note that labor, delivery and post-partum features are still in\ndevelopment)*.\n\n<img style=\"float: right\" src=\"src/assets/IMG_20161008_120337_rotated_scaled_200x.jpg\" >\nMidwife-EMR is free, open-source software that is designed to run on a small\nappliance known as an Odroid XU4. The XU4 is inexpensive, powerful, and does\nnot use much electricity which allows it to operate for relatively long periods\nof time on a battery backup system.\n\nBut from the perspective of a Midwife-EMR user, Midwife-EMR is simply an\napplication that is used in a web browser. That means that midwives can use the\napplication on everything from their laptop or desktop computers, their phones\nor their tablets.\n\n    ';
+var _kbsymanz$midwife_emr_internal_docs$Verbage$whatIsPage = '\n## What is Midwife-EMR?\n\n\n\n#### it began with a need\n\nMidwife-EMR was born out of the need for an electronic medical records system\nto handle midwifery patients in a large charity lying-in maternity clinic in\nthe Philippines. After nearly 20 years of operation, the clinic was overwhelmed\nwith paperwork which meant that sometimes records took a while to locate.\nAdditional reporting requirements of various government agencies also meant the\nstaff was consumed with many hours of report \"generation\" by hand, often typing\nthe same information repeatedly for various reports because there was no\ncentral computer system or software that would generate the reports that they\nneeded.\n\n<img style=\"float: left; padding-right: 1em;\" src=\"src/assets/IMG_6744_180x.JPG\" >\nAfter researching the various software alternatives available, it was\ndetermined that affordable midwifery software that catered to the needs of\nlying-in maternity clinics in the developing world *did not exist*.\nMidwife-EMR was \"born\" of the twin goals of creating a medical records\nsystem that was easy to use and was a high-quality medical records\nmanagement system.\n\n#### it continues with a goal\n\n<img style=\"float: right; padding-left: 1em;\" src=\"src/assets/IMG_6288_180x.JPG\" >\nAfter the first phase of Midwife-EMR was finished which covered prenatal care,\nMidiwfe-EMR was used in a large maternity clinic as a trial. The clinic used\nMidwife-EMR exclusively and performed an average of 1,000 prenatal exams every\nmonth. The clinic had up to 12 staff simultaneously using Midwife-EMR\nperforming various patient tasks such as recording medical data, patient\nsearches, checking in and out patients, running reports, etc.\n\nIt did not take long to realize that Midwife-EMR needed to be expanded to\nencompass the full breadth of midwifery care - not just prenatal but labor,\ndelivery and postpartum as well. These features are still being developed as of\n    October 2016.\n\n\n\n\n    ';
 
 var _kbsymanz$midwife_emr_internal_docs$View$cardContents = F7(
 	function (cardIdx, page, model, headColor, textColor, title, content) {
@@ -15193,7 +15196,6 @@ var _kbsymanz$midwife_emr_internal_docs$View$viewWhatIs = function (model) {
 			]),
 		_elm_lang$core$Native_List.fromArray(
 			[
-				_elm_lang$html$Html$text('What is page'),
 				A5(
 				_debois$elm_mdl$Material_Button$render,
 				_kbsymanz$midwife_emr_internal_docs$Msg$Mdl,
@@ -15210,6 +15212,49 @@ var _kbsymanz$midwife_emr_internal_docs$View$viewWhatIs = function (model) {
 				_elm_lang$core$Native_List.fromArray(
 					[
 						_elm_lang$html$Html$text('Back')
+					])),
+				A2(
+				_debois$elm_mdl$Material_Grid$grid,
+				_elm_lang$core$Native_List.fromArray(
+					[]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						A2(
+						_debois$elm_mdl$Material_Grid$cell,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								A2(_debois$elm_mdl$Material_Grid$size, _debois$elm_mdl$Material_Grid$Desktop, 12),
+								A2(_debois$elm_mdl$Material_Grid$size, _debois$elm_mdl$Material_Grid$Tablet, 8),
+								A2(_debois$elm_mdl$Material_Grid$size, _debois$elm_mdl$Material_Grid$Phone, 4)
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								A2(
+								_debois$elm_mdl$Material_Card$view,
+								_elm_lang$core$Native_List.fromArray(
+									[
+										A2(_debois$elm_mdl$Material_Options$css, 'width', '100%'),
+										_debois$elm_mdl$Material_Color$background(_debois$elm_mdl$Material_Color$accent),
+										_debois$elm_mdl$Material_Elevation$e4
+									]),
+								_elm_lang$core$Native_List.fromArray(
+									[
+										A2(
+										_debois$elm_mdl$Material_Card$text,
+										_elm_lang$core$Native_List.fromArray(
+											[
+												_debois$elm_mdl$Material_Color$text(_debois$elm_mdl$Material_Color$accentContrast)
+											]),
+										_elm_lang$core$Native_List.fromArray(
+											[
+												A2(
+												_evancz$elm_markdown$Markdown$toHtml,
+												_elm_lang$core$Native_List.fromArray(
+													[]),
+												_kbsymanz$midwife_emr_internal_docs$Verbage$whatIsPage)
+											]))
+									]))
+							]))
 					]))
 			]));
 };
@@ -15226,7 +15271,7 @@ var _kbsymanz$midwife_emr_internal_docs$View$viewFeatures = function (model) {
 			]),
 		_elm_lang$core$Native_List.fromArray(
 			[
-				_elm_lang$html$Html$text('Features page'),
+				_elm_lang$html$Html$text('Obviously we have not finished this page, sorry about that.'),
 				A5(
 				_debois$elm_mdl$Material_Button$render,
 				_kbsymanz$midwife_emr_internal_docs$Msg$Mdl,
@@ -15259,7 +15304,7 @@ var _kbsymanz$midwife_emr_internal_docs$View$viewTraining = function (model) {
 			]),
 		_elm_lang$core$Native_List.fromArray(
 			[
-				_elm_lang$html$Html$text('Training page'),
+				_elm_lang$html$Html$text('Unfortunately we haven\'t written this yet - sorry.'),
 				A5(
 				_debois$elm_mdl$Material_Button$render,
 				_kbsymanz$midwife_emr_internal_docs$Msg$Mdl,

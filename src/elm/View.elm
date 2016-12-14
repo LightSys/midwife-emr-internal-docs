@@ -299,8 +299,7 @@ viewDetailPage title cards backColor titleColor textColor isTopLevel model =
 viewWhatIs : Model -> Html Msg
 viewWhatIs model =
     div [ style [ "padding" => "2rem" ] ]
-        [ text ("What is page")
-        , Button.render Mdl
+        [ Button.render Mdl
             [ learnBackBtn ]
             model.mdl
             [ Button.ripple
@@ -308,13 +307,29 @@ viewWhatIs model =
             , Button.onClick <| ViewPage MainPage
             ]
             [ text "Back" ]
+        , grid []
+            [ cell
+                [ size Desktop 12
+                , size Tablet 8
+                , size Phone 4
+                ]
+                [ Card.view
+                    [ css "width" "100%"
+                    , Color.background Color.accent
+                    , Elevation.e4
+                    ]
+                    [ Card.text [ Color.text Color.accentContrast ]
+                        [ Markdown.toHtml [] Verbage.whatIsPage ]
+                    ]
+                ]
+            ]
         ]
 
 
 viewFeatures : Model -> Html Msg
 viewFeatures model =
     div [ style [ "padding" => "2rem" ] ]
-        [ text ("Features page")
+        [ text ("Obviously we have not finished this page, sorry about that.")
         , Button.render Mdl
             [ learnBackBtn ]
             model.mdl
@@ -340,7 +355,7 @@ viewHow model =
 viewTraining : Model -> Html Msg
 viewTraining model =
     div [ style [ "padding" => "2rem" ] ]
-        [ text ("Training page")
+        [ text ("Unfortunately we haven't written this yet - sorry.")
         , Button.render Mdl
             [ learnBackBtn ]
             model.mdl
