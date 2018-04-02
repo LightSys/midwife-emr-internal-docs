@@ -16,6 +16,11 @@ It is assumed that the contents of this file are populated as necessary by
 another process and that it accurately reflects the IP addresses in which the
 Midwife-EMR application can be found at port 443.
 
+## TODO
+
+- Add additional documentation topics.
+- Upgrade to the latest version of Elm.
+
 ## License
 
 Copyright (C) 2017-2018 LightSys Technology Services, Inc.
